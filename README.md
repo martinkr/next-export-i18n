@@ -17,9 +17,11 @@ This means that _none_ of the i18n-libraries (which are utilizing the build in i
 Wait, what is going on here, they explicitly mention support for server-side rendering!
 
 >react-i18next is optimally suited for server-side rendering
+
 [https://react.i18next.com](react-i18next)
 
 >To complement this, next-i18next provides the remaining functionality – management of translation content, and components/hooks to translate your React components – while fully supporting SSG/SSR, multiple namespaces, codesplitting, etc.
+
 [https://github.com/isaachinman/next-i18next](next-i18next)
 
 They all support _pre-rendered sites_ which are *served with `Next.js`* - where as `next export` creates a truly static page which can be served with *any* webserver (e.g. nginx, apache etc).
