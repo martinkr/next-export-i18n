@@ -1,5 +1,5 @@
 
-# `next-i18n-export` [![Build Status](https://app.travis-ci.com/martinkr/next-export-i18n.svg?branch=main)](https://app.travis-ci.com/martinkr/next-export-i18n)
+# `next-export-i18n` [![Build Status](https://app.travis-ci.com/martinkr/next-export-i18n.svg?branch=main)](https://app.travis-ci.com/martinkr/next-export-i18n)
 
 
 **TL;DR: This npm module provides a simple solution for Internationalization (i18n) of projects using `next export`.**
@@ -39,7 +39,7 @@ There are a few things you need to keep in mind:
 
 ## Quick start
 
-1. Run `yarn add next-i18n-export` or `npm install next-i18n-export`
+1. Run `yarn add next-export-i18n` or `npm install next-export-i18n`
 2. Create a top-level-folder `i18n` and Add your `json translation files` . 
 3. Create`i18n/index.js`, require` your `translation files` and export them:
 ```
@@ -68,7 +68,7 @@ const [query] = useLanguageQuery();
 6. Add the translations with `t(key)` from `useTranslation` to your elements. They will be automatically update as soon as the language change.
 
 ## Sample implementation 
-You can also take a look at the example implementation [next-i18n-export-example.vercel.app](https://next-i18n-export-example.vercel.app) and its source code at [github: `https://github.com/martinkr/next-i18n-export-example`](https://github.com/martinkr/next-i18n-export-example).
+You can also take a look at the example implementation [next-export-i18n-example.vercel.app](https://next-export-i18n-example.vercel.app) and its source code at [github: `https://github.com/martinkr/next-export-i18n-example`](https://github.com/martinkr/next-export-i18n-example).
 
 ## Getting Started with `Next.js`
 
