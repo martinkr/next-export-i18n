@@ -1,0 +1,22 @@
+language_tag: en
+default: false
+i18n:
+  ui:
+    languageSwitcher: 'Choose Language: '
+  nav:
+    nyc:
+      text: 'Go to New York City'
+      route: '/nyc'
+    index:
+      text: 'Got To Paris'
+      route: '/'
+
+  index:
+    headline: 'Paris / France'
+    copy: "Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). Since the 17th century, Paris has been one of Europe's major centres of finance, diplomacy, commerce, fashion, gastronomy, science, and arts."
+    imageCredits: 'Photo by Egie Aroa from Pexels'
+
+  nyc:
+    headline: New York City / USA
+    copy: 'New York City, or NYC for short, is the most populous city in the United States. With an estimated 2020 population of 8,253,213 distributed over about 302.6 square miles (784 km2), New York City is also the most densely populated major city in the United States.'
+    imageCredits: 'Photo by Lukas Rodriguez from Pexels'

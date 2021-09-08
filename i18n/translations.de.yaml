@@ -1,0 +1,22 @@
+language_tag: de
+default: true
+i18n:
+  ui:
+    languageSwitcher: 'Sprache wählen: '
+  nav:
+    nyc:
+      text: 'Gehe zu New York City'
+      route: '/nyc'
+    index:
+      text: 'Gehe zu Paris'
+      route: '/'
+
+  index:
+    headline: 'Paris / Frankreich'
+    copy: 'Paris ist die Hauptstadt der Französischen Republik und Hauptort der Region Île-de-France. Mit rund 2,18 Millionen Einwohnern ist Paris die viertgrößte Stadt der Europäischen Union sowie mit über 12,5 Millionen Menschen die größte Metropolregion der EU'
+    imageCredits: 'Photo by Egie Aroa from Pexels'
+
+  nyc:
+    headline: New York City / USA
+    copy: 'New York City (Abkürzung: NYC) ist eine Weltstadt an der Ostküste der Vereinigten Staaten. Sie liegt im Bundesstaat New York und ist mit rund 8,3 Millionen Einwohnern die bevölkerungsreichste Stadt der Vereinigten Staaten.'
+    imageCredits: 'Photo by Lukas Rodriguez from Pexels'

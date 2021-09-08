@@ -1,0 +1,53 @@
+{
+  "name": "next-export-i18n",
+  "files": [
+    "./dist/index.js"
+  ],
+  "main": "./dist/index.js",
+  "version": "1.0.0",
+  "description": "Internationalize next.js with true support for next export",
+  "keywords": [
+    "next.js",
+    "react.js",
+    "typescript",
+    "i18n",
+    "export",
+    "ssg"
+  ],
+  "author": "Martin Krause <oss@mkrause.info> (http://mkrause.info/)",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --coverage",
+    "build": "node ./scripts/pre-build.js && yarn test && tsc && rollup -c && node ./scripts/post-build.js",
+    "start": "rollup -c -w"
+  },
+  "dependencies": {
+    "next": "^11.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "peerDependencies": {
+    "next": "^11.0.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-yaml": "^3.1.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.1",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^26.0.24",
+    "@types/react": "17.0.15",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "jest": "^27.0.6",
+    "js-yaml-loader": "^1.2.2",
+    "next": "^11.0.1",
+    "replace-in-files": "^3.0.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.56.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^27.0.4",
+    "typescript": "4.3.5"
+  }
+}
