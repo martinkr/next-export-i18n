@@ -1,5 +1,5 @@
 
-# `next-i18n-export`
+# `next-i18n-export` [![Build Status](https://app.travis-ci.com/martinkr/next-export-i18n.svg?branch=main)](https://app.travis-ci.com/martinkr/next-export-i18n)
 
 
 **TL;DR: This npm module provides a simple solution for Internationalization (i18n) of projects using `next export`.**
