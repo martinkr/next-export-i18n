@@ -22,6 +22,10 @@ async function postBuild() {
         fs.copyFile('./../README.md', './dist/README.md', (err) => {
             if (err) throw err;
         });
+        console.log("post build: copy './../LICENSE' to './dist/LICENSE'");
+        fs.copyFile('./../LICENSE', './dist/LICENSE', (err) => {
+            if (err) throw err;
+        });
         console.log("post build: copy './package.dist.json' to './dist/package.json'");
         fs.copyFile('./package.dist.json', './dist/package.json', (err) => {
             if (err) throw err;

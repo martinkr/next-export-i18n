@@ -1,10 +1,14 @@
 {
   "name": "next-export-i18n",
   "files": [
-    "./dist/index.js"
+    "./dist/index.js",
+    "./dist/index.d.ts",
+    "./dist/README.md",
+    "./dist/LICENSE",
+    "./dist/package.json"
   ],
   "main": "./dist/index.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
@@ -49,5 +53,14 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^27.0.4",
     "typescript": "4.3.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinkr/next-export-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martinkr/next-export-i18n/issues"
+  },
+  "homepage": "https://github.com/martinkr/next-export-i18n#readme"
+}
 }

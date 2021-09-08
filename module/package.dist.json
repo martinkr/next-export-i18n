@@ -1,10 +1,14 @@
 {
   "name": "next-export-i18n",
   "files": [
-    "./index.js"
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE",
+    "package.json"
   ],
-  "main": "./index.js",
-  "version": "1.0.1",
+  "main": "index.js",
+  "version": "1.0.2",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
@@ -25,5 +29,13 @@
   "peerDependencies": {
     "next": "^11.0.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinkr/next-export-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martinkr/next-export-i18n/issues"
+  },
+  "homepage": "https://github.com/martinkr/next-export-i18n#readme"
 }
