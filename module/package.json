@@ -23,7 +23,8 @@
   "scripts": {
     "test": "jest --coverage",
     "build": "node ./scripts/pre-build.js && yarn test && tsc && rollup -c && node ./scripts/post-build.js",
-    "start": "rollup -c -w"
+    "start": "rollup -c -w",
+    "npm": "cd ./dist"
   },
   "dependencies": {
     "mustache": "^4.2.0",
