@@ -1,5 +1,5 @@
 
-# `next-i18n-export`
+# `next-export-i18n` [![Build Status](https://app.travis-ci.com/martinkr/next-export-i18n.svg?branch=main)](https://app.travis-ci.com/martinkr/next-export-i18n)
 
 
 **TL;DR: This npm module provides a simple solution for Internationalization (i18n) of projects using `next export`.**
@@ -7,7 +7,7 @@
 Since v10.0.0 Next.js already has support for internationalized (i18n) routing out-of-the-box. You can provide a list of locales, a default as well as  domain-specific locales and Next.js  automatically handles the routing. It streamlines the touring and locale parsing for nearly all existing l18n library solutions available for Next.js such as `react-intl`, `react-i18next`, `lingui`, `rosetta`, `next-intl`.
 
 
-Unfortunately, (https://nextjs.org/docs/advanced-features/i18n-routing)[`Next.js` i18n-routing] does not supports `next export`.
+Unfortunately, [https://nextjs.org/docs/advanced-features/i18n-routing](`Next.js` i18n-routing) does not supports `next export`.
 
 > Note that Internationalized Routing does not integrate with `next export` as next export does not leverage the Next.js routing layer. Hybrid Next.js applications that do not use next export are fully supported.
 
@@ -17,10 +17,12 @@ This means that _none_ of the i18n-libraries (which are utilizing the build in i
 Wait, what is going on here, they explicitly mention support for server-side rendering!
 
 >react-i18next is optimally suited for server-side rendering
-(https://react.i18next.com)[react-i18next]
+
+[https://react.i18next.com](react-i18next)
 
 >To complement this, next-i18next provides the remaining functionality – management of translation content, and components/hooks to translate your React components – while fully supporting SSG/SSR, multiple namespaces, codesplitting, etc.
-(https://github.com/isaachinman/next-i18next)[next-i18next]
+
+[https://github.com/isaachinman/next-i18next](next-i18next)
 
 They all support _pre-rendered sites_ which are *served with `Next.js`* - where as `next export` creates a truly static page which can be served with *any* webserver (e.g. nginx, apache etc).
 
@@ -37,7 +39,7 @@ There are a few things you need to keep in mind:
 
 ## Quick start
 
-1. Run `yarn add next-i18n-export` or `npm install next-i18n-export`
+1. Run `yarn add next-export-i18n` or `npm install next-export-i18n`
 2. Create a top-level-folder `i18n` and Add your `json translation files` . 
 3. Create`i18n/index.js`, require` your `translation files` and export them:
 ```
@@ -66,7 +68,7 @@ const [query] = useLanguageQuery();
 6. Add the translations with `t(key)` from `useTranslation` to your elements. They will be automatically update as soon as the language change.
 
 ## Sample implementation 
-You can also take a look at the example implementation [next-i18n-export-example.vercel.app](https://next-i18n-export-example.vercel.app) and its source code at [github: `https://github.com/martinkr/next-i18n-export-example`]( https://github.com/martinkr/next-i18n-export-example).
+You can also take a look at the example implementation [next-export-i18n-example.vercel.app](https://next-export-i18n-example.vercel.app) and its source code at [github: `https://github.com/martinkr/next-export-i18n-example`](https://github.com/martinkr/next-export-i18n-example).
 
 ## Getting Started with `Next.js`
 
@@ -101,7 +103,5 @@ and `serve` the `./out` directory with your favorite web server.
 
 ## License
 
-Dual licensed under the MIT and GPL licenses.
-
-- MIT - http://www.opensource.org/licenses/mit-license.php
-- GNU - http://www.gnu.org/licenses/gpl-3.0.html
+Licensed under the MIT license.
+MIT - http://www.opensource.org/licenses/mit-license.php

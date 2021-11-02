@@ -14,6 +14,7 @@ jest.mock('./../../../i18n/index', () => {
 		i18n: {
 			translations: {
 				mock: {
+					template: '{{count}} times',
 					string: 'mock',
 					arr: [1, 2, 3],
 					obj: { key: 'valueMock' },
@@ -66,7 +67,14 @@ describe('The hook exports a function ', () => {
 		expect(result.current.t).toBeInstanceOf(Function);
 	});
 
-	it(`t() which returns the value for a simple key based on the langage`, async () => {
+	it(`t() which returns a string interpolated with a template `, async () => {
+		const key = 'template';
+		const expectation = '2 times';
+		const { result } = renderHook(() => useTranslation());
+		expect(result.current.t(key, { count: 2 })).toEqual(expectation);
+	});
+
+	it(`t() which returns the value for a simple key based on the language`, async () => {
 		const key = 'string';
 		const expectation = 'mock';
 		const { result } = renderHook(() => useTranslation());

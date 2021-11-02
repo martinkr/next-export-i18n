@@ -3,10 +3,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var router = require('next/router');
 var React = require('react');
 var I18N = require('./../../i18n/index.js');
+var Mustache = require('mustache');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
 
 /**
  * The entry files for the separated hooks
@@ -131,13 +133,18 @@ const useTranslation = () => {
          * The return value can be a string, a number, an array or an object.
          * In case there is no entry for this key, it returns the key.
          * @param key the key for looking up the translation
+         * @param view the mustache view for interpolating the template string
          * @returns the value stored for this key, could be a string, a number, an array or an object
          */
-        t: (key) => {
-            let value = key
-                .split('.')
-                .reduce((previous, current) => (previous && previous[current]) || null, translations[lang]);
-            return value || key;
+        t: (key, view) => {
+            let value = key.split('.').reduce((previous, current) => (previous && previous[current]) || null, translations[lang]);
+            let translation = value || key;
+            try {
+                return Mustache__default["default"].render(translation, view);
+            }
+            catch (e) {
+                return translation;
+            }
         },
     };
 };
@@ -169,8 +176,8 @@ const LanguageSwitcher = ({ lang, children, shallow = false }) => {
         }, undefined, { shallow: shallow });
     };
     // use React.cloneElement to manipulate properties
-    if (React__default['default'].isValidElement(children)) {
-        return React__default['default'].cloneElement(children, {
+    if (React__default["default"].isValidElement(children)) {
+        return React__default["default"].cloneElement(children, {
             onClick: () => {
                 if (children &&
                     children.props &&
@@ -188,7 +195,7 @@ const LanguageSwitcher = ({ lang, children, shallow = false }) => {
         });
     }
     else {
-        return (React__default['default'].createElement("span", { role: "button", "aria-label": `set language to ${lang}`, "data-language-switcher": "true", "data-is-current": languageSwitcherIsActive, onClick: () => {
+        return (React__default["default"].createElement("span", { role: "button", "aria-label": `set language to ${lang}`, "data-language-switcher": "true", "data-is-current": languageSwitcherIsActive, onClick: () => {
                 // set the language
                 updateRouter();
             } }, children));
@@ -196,7 +203,7 @@ const LanguageSwitcher = ({ lang, children, shallow = false }) => {
 };
 
 exports.LanguageSwitcher = LanguageSwitcher;
-exports['default'] = i18n;
+exports["default"] = i18n;
 exports.useLanguageQuery = useLanguageQuery;
 exports.useLanguageSwitcherIsActive = useLanguageSwitcherIsActive;
 exports.useSelectedLanguage = useSelectedLanguage;
