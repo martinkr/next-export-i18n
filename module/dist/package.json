@@ -8,7 +8,7 @@
     "package.json"
   ],
   "main": "index.js",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",

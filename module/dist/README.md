@@ -7,7 +7,7 @@
 Since v10.0.0 Next.js already has support for internationalized (i18n) routing out-of-the-box. You can provide a list of locales, a default as well as  domain-specific locales and Next.js  automatically handles the routing. It streamlines the touring and locale parsing for nearly all existing l18n library solutions available for Next.js such as `react-intl`, `react-i18next`, `lingui`, `rosetta`, `next-intl`.
 
 
-Unfortunately, [https://nextjs.org/docs/advanced-features/i18n-routing](`Next.js` i18n-routing) does not supports `next export`.
+Unfortunately, [`Next.js` i18n-routing](https://nextjs.org/docs/advanced-features/i18n-routing) does not supports `next export`.
 
 > Note that Internationalized Routing does not integrate with `next export` as next export does not leverage the Next.js routing layer. Hybrid Next.js applications that do not use next export are fully supported.
 
@@ -34,15 +34,24 @@ For the different types of pre-rendering in `Next.js`, take a look at my article
 `next-i18n-export` will add a query-parameter `lang` to your urls and use this for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next / next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
 There are a few things you need to keep in mind: 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
-- you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
+- you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
 
 
 ## Quick start
 
-1. Run `yarn add next-export-i18n` or `npm install next-export-i18n`
+1. Run `yarn add next-export-i18n` or `npm install next-export-i18n`.
 2. Create a top-level-folder `i18n` and Add your `json translation files` . 
-3. Create`i18n/index.js`, require` your `translation files` and export them:
+
+### translation.json
+```json
+{
+	"myKey": "my translated key",
+}
 ```
+
+3. Create `i18n/index.js`, `require` your `translation files` and export them.
+
+```javascript
 var en = require('./translations.en.json');
 var de = require('./translations.de.json')
 
@@ -55,17 +64,46 @@ const i18n = {
 }
 
 module.exports = i18n;
-```
+``` 
 
-4. `import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n'` in your `pages` and get the required hooks with
-```
+4. `import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n'` in your `pages` and get the required hooks.
+
+```javascript
+import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n';
+
 const { t } = useTranslation();
 const [query] = useLanguageQuery();
 ````
 
-4. Add the `<LanguageSwitcher lang={string}>` component to change the language (or create your own language switcher)
-5. Add the `query` from `useLanguageQuery` to your internal links to enhance them with the language parameter (`<Link href={{ query: query … }}>…`)
-6. Add the translations with `t(key)` from `useTranslation` to your elements. They will be automatically update as soon as the language change.
+4. Add the `<LanguageSwitcher lang={string}>` component to change the language (or create your own language switcher).
+5. Add the `query` from `useLanguageQuery` to your internal links to enhance them with the language parameter (`<Link href={{ query: query … }}>…`).
+6. Add the translations with `t(key)` from `useTranslation` to your elements. They will be automatically update as soon as the language change. 
+
+### Module.js
+```javascript
+	const { t } = useTranslation();
+	const key = 'myKey';
+	let string = t(key)
+	// string will be "my translated key"
+```
+
+
+## Working with template strings in translation files
+You can also provide a [mustache](https://mustache.github.io/) template in your `translation.json` and render it dynamically:
+### translation.json
+```json
+{
+	"myTemplate": "{{count}} times",
+}
+````
+### Module.js
+```javascript
+	import { useTranslation} from 'next-export-i18n'
+	const { t } = useTranslation();
+	const key = 'myTemplate';
+	let string = t(key, { count: 2 }))
+	// string will be "2 times"
+```
 
 ## Sample implementation 
 You can also take a look at the example implementation [next-export-i18n-example.vercel.app](https://next-export-i18n-example.vercel.app) and its source code at [github: `https://github.com/martinkr/next-export-i18n-example`](https://github.com/martinkr/next-export-i18n-example).
