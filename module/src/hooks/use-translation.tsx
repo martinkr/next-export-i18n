@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import i18n from './../index';
 import { Dictionary, I18N } from '../types';
 import useSelectedLanguage from './use-selected-language';
-
+import Mustache from 'mustache';
 
 /**
  * Provides the t() function which returns the value stored for this given key (e.g. "i18n.ui.headline")
@@ -29,17 +29,21 @@ const useTranslation = ( ) => {
 		 * The return value can be a string, a number, an array or an object.
 		 * In case there is no entry for this key, it returns the key.
 		 * @param key the key for looking up the translation
+		 * @param view the mustache view for interpolating the template string
 		 * @returns the value stored for this key, could be a string, a number, an array or an object
 		 */
-		t: (key: string): any => {
-			let value: any = key
-				.split('.')
-				.reduce(
+		t: (key: string, view?: object): any => {
+			let value: any = key.split('.').reduce(
 					(previous: any, current: string) =>
 						(previous && previous[current]) || null,
 					translations[lang]
-			);
-			return value || key;
+				);
+			let translation: any = value || key;
+			try {
+				return Mustache.render(translation, view);
+			} catch (e) {
+				return translation;
+			}
 		},
 	};
 };

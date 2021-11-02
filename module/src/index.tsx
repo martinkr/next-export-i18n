@@ -1,6 +1,6 @@
 
 /**
- * The entry files for the separated hooks 
+ * The entry files for the separated hooks
  */
 
 import { i18n as userland } from "./../../i18n/index";

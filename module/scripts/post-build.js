@@ -23,7 +23,7 @@ async function postBuild() {
             if (err) throw err;
         });
         console.log("post build: copy './../LICENSE' to './dist/LICENSE'");
-        fs.copyFile('./../LICENSE', './dist/LICENSE', (err) => {
+        fs.copyFile('./LICENSE', './dist/LICENSE', (err) => {
             if (err) throw err;
         });
         console.log("post build: copy './package.dist.json' to './dist/package.json'");
@@ -54,4 +54,3 @@ async function postBuild() {
     }
 }
 postBuild();
-
