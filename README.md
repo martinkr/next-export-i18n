@@ -18,11 +18,11 @@ Wait, what is going on here, they explicitly mention support for server-side ren
 
 >react-i18next is optimally suited for server-side rendering
 
-[https://react.i18next.com](react-i18next)
+[https://react.i18next.com](https://react.i18next.com)
 
 >To complement this, next-i18next provides the remaining functionality – management of translation content, and components/hooks to translate your React components – while fully supporting SSG/SSR, multiple namespaces, codesplitting, etc.
 
-[https://github.com/isaachinman/next-i18next](next-i18next)
+[https://github.com/isaachinman/next-i18next](https://github.com/isaachinman/next-i18next)
 
 They all support _pre-rendered sites_ which are *served with `Next.js`* - where as `next export` creates a truly static page which can be served with *any* webserver (e.g. nginx, apache etc).
 
@@ -35,7 +35,7 @@ For the different types of pre-rendering in `Next.js`, take a look at my article
 There are a few things you need to keep in mind: 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
 - you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
-
+- Requires JavaScript being enabled on the client side.
 
 ## Quick start
 
