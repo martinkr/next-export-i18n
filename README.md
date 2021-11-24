@@ -35,7 +35,7 @@ For the different types of pre-rendering in `Next.js`, take a look at my article
 There are a few things you need to keep in mind: 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
 - you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
-- Requires JavaScript being enabled on the client side.
+- it requires JavaScript being enabled on the client side.
 
 ## Quick start
 
