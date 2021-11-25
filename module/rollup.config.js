@@ -12,7 +12,7 @@ export default {
             format: 'cjs',
             sourcemap: false,
             strict: false,
-            exports: 'named',
+            exports: 'named'
         }
     ],
     plugins: [
@@ -20,5 +20,5 @@ export default {
         typescript({ objectHashIgnoreUnknownHack: true }),
         babel({ "presets": ["next/babel"] })
     ],
-    external: ['react', 'react-dom', 'next', 'next/router', './../../i18n/index']
+    external: ['react', 'react-dom', 'next', 'next/router', './../../i18n/index', 'mustache']
 }

@@ -8,7 +8,7 @@
     "package.json"
   ],
   "main": "index.js",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
@@ -21,9 +21,10 @@
   "author": "Martin Krause <oss@mkrause.info> (http://mkrause.info/)",
   "license": "MIT",
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "mustache": "^4.2.0"
+  },
   "peerDependencies": {
-    "mustache": "^4.2.0",
     "next": ">=11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
