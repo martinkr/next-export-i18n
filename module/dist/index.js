@@ -14,6 +14,22 @@ var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
  * The entry files for the separated hooks
  */
 /**
+ * Calculates the default language from the user's language setting and the i18n object.
+ * In case there is a language set in the browser which is also available as translation,
+ * override the default language setting in the config file.
+ * @returns string indicating the default language to use
+ */
+const getDefaultLanguage = (userI18n) => {
+    const browserLang = ((navigator.languages && navigator.languages[0]) ||
+        navigator.language)
+        .split("-")[0]
+        .toLowerCase();
+    if (browserLang && userI18n.translations[browserLang]) {
+        return browserLang;
+    }
+    return userI18n.defaultLang;
+};
+/**
  * Imports the translations addes by the user in "i18n/index",
  * veryfies the tranlsations and exposes them
  * to the custom hooks
@@ -31,6 +47,7 @@ const i18n = () => {
     if (!userI18n.translations[userI18n.defaultLang]) {
         throw new Error(`Invalid default language '${userI18n.defaultLang}'. Check your 'defaultLang' in 'i18n/index.js'?`);
     }
+    userI18n.defaultLang = getDefaultLanguage(userI18n);
     return userI18n;
 };
 
