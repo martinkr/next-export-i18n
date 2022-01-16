@@ -39,11 +39,19 @@ There are a few things you need to keep in mind:
 1. Run `yarn add next-export-i18n` or `npm install next-export-i18n`.
 2. Create a top-level-folder `i18n` and Add your `json translation files` .
 
-### translation.json
+### translations.en.json
 
 ```json
 {
-  "myKey": "my translated key"
+  "myKey": "en translation"
+}
+```
+
+### translations.de.json
+
+```json
+{
+  "myKey": "de translation"
 }
 ```
 
@@ -55,8 +63,8 @@ var de = require("./translations.de.json");
 
 const i18n = {
   translations: {
-    en: en.i18n,
-    de: de.i18n,
+    en,
+    de,
   },
   defaultLang: "en",
 };
