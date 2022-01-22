@@ -13,7 +13,7 @@ import { Dictionary, I18N } from "./types";
  */
 const getDefaultLanguage = (userI18n: I18N): string => {
   let browserLang: string = "";
-  if (typeof navigator !== "undefined") {
+  if (window?.navigator || navigator) {
     browserLang = (
       (navigator?.languages && navigator?.languages[0]) ||
       navigator?.language

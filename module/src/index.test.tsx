@@ -12,6 +12,7 @@ Object.defineProperty(window, "navigator", {
   value: navigator,
   writable: true,
 });
+
 jest.mock("./../../i18n/index", () => {
   return {
     __esModule: true,
