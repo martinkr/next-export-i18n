@@ -1,3 +1,5 @@
+![next-export-i18n written over a mountain peak](next-i18n-export.png)
+
 # `next-export-i18n` [![Build Status](https://app.travis-ci.com/martinkr/next-export-i18n.svg?branch=main)](https://app.travis-ci.com/martinkr/next-export-i18n)
 
 **TL;DR: This npm module provides a simple solution for Internationalization (i18n) of projects using `next export`.**
@@ -67,13 +69,15 @@ const i18n = {
     de,
   },
   defaultLang: "en",
+  useBrowserDefault: true,
 };
 
 module.exports = i18n;
 ```
 
-_In case there is a default language set in the browser and this language is available in the translations,
+_In case there is a default language set in the browser and this language is available in the translations, and `useBrowserDefault` is set to true
 it overrides the default language setting in the config file._ Relevant is the primary subtag, e.g.: a default language of `en-US` from the will be read as `en`.
+Set `useBrowserDefault` to false if you want to forcefully override the browser language.
 
 4. `import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n'` in your `pages` and get the required hooks.
 
