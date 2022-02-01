@@ -21,7 +21,7 @@ var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
  */
 const getDefaultLanguage = (userI18n) => {
     let browserLang = "";
-    if (typeof navigator !== "undefined") {
+    if (window?.navigator || navigator) {
         browserLang = ((navigator?.languages && navigator?.languages[0]) ||
             navigator?.language)
             .split("-")[0]
