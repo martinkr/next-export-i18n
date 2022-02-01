@@ -21,13 +21,15 @@ var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
  */
 const getDefaultLanguage = (userI18n) => {
     let browserLang = "";
-    if (window?.navigator || navigator) {
+    if (userI18n.useBrowserDefault && (window?.navigator || navigator)) {
         browserLang = ((navigator?.languages && navigator?.languages[0]) ||
             navigator?.language)
             .split("-")[0]
             .toLowerCase();
     }
-    if (browserLang && userI18n.translations[browserLang]) {
+    if (userI18n.useBrowserDefault &&
+        browserLang &&
+        userI18n.translations[browserLang]) {
         return browserLang;
     }
     return userI18n.defaultLang;

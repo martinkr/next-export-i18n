@@ -22,6 +22,7 @@ jest.mock("./../../i18n/index", () => {
         foo: { title: "bar" },
       },
       defaultLang: "mock",
+      useBrowserDefault: true,
     } as any,
   };
 });
@@ -29,6 +30,7 @@ jest.mock("./../../i18n/index", () => {
 const mockedData: any = {
   translations: { mock: { title: "mock" }, foo: { title: "bar" } },
   defaultLang: "mock",
+  useBrowserDefault: true,
 };
 
 beforeEach(() => {
@@ -36,6 +38,7 @@ beforeEach(() => {
   // reset values before each test
   const translations = { mock: { type: "mock" } };
   userland["defaultLang"] = mockedData["defaultLang"];
+  userland["useBrowserDefault"] = true;
   userland["translations"] = mockedData["translations"] as unknown as any;
 });
 
@@ -56,6 +59,7 @@ describe("The main file returns ", () => {
     //@ts-ignore
     global.navigator.language = originalLang;
   });
+
   it(`overrides the defaultLanguage with the primary subtag if the browser has a default lang which is part of the i18n`, async () => {
     const originalLang = global.navigator.languages;
 
@@ -64,6 +68,19 @@ describe("The main file returns ", () => {
 
     const i18nObj = index() as I18N;
     expect(i18nObj.defaultLang).toStrictEqual("foo");
+    //@ts-ignore
+    global.navigator.language = originalLang;
+  });
+
+  it(`should preserve the defaultLanguage if useBrowserDefault is set to false`, async () => {
+    const originalLang = global.navigator.languages;
+    userland["useBrowserDefault"] = false;
+
+    //@ts-ignore
+    global.navigator.language = "foo-US";
+
+    const i18nObj = index() as I18N;
+    expect(i18nObj.defaultLang).toStrictEqual("mock");
     //@ts-ignore
     global.navigator.language = originalLang;
   });
