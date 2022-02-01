@@ -66,6 +66,6 @@ describe('The hook returns ', () => {
 			query: { lang: 'bar' },
 		}));
 		const { result } = renderHook(() => useSelectedLanguage());
-		expect(result.current.lang).toBe('bar');
+		expect(result.current.lang).toBe('mock');
 	});
 });

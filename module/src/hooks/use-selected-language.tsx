@@ -13,12 +13,13 @@ export default function useSelectedLanguage()  {
 	i18nObj = i18n() as I18N;
 
 	const defaultLang: string = i18nObj.defaultLang;
+	const translations = i18nObj.translations;
 	const router = useRouter();
 	const [lang, setLang] = useState<string>(defaultLang);
 
 	// set the language if the query parameter changes
 	useEffect(() => {
-		if (router.query.lang && router.query.lang !== lang) {
+		if (router.query.lang && router.query.lang !== lang && translations && translations[router.query.lang as string]) {
 			let lang: string = router.query.lang as string;
 			setLang(lang);
 		}
