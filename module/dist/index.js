@@ -21,9 +21,11 @@ var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
  */
 const getDefaultLanguage = (userI18n) => {
     let browserLang = "";
-    if (userI18n.useBrowserDefault && (window?.navigator || navigator)) {
-        browserLang = ((navigator?.languages && navigator?.languages[0]) ||
-            navigator?.language)
+    if (userI18n.useBrowserDefault &&
+        typeof window !== "undefined" &&
+        window?.navigator) {
+        browserLang = ((window.navigator?.languages && window.navigator?.languages[0]) ||
+            window.navigator?.language)
             .split("-")[0]
             .toLowerCase();
     }
@@ -64,11 +66,12 @@ function useSelectedLanguage() {
     let i18nObj;
     i18nObj = i18n();
     const defaultLang = i18nObj.defaultLang;
+    const translations = i18nObj.translations;
     const router$1 = router.useRouter();
     const [lang, setLang] = React.useState(defaultLang);
     // set the language if the query parameter changes
     React.useEffect(() => {
-        if (router$1.query.lang && router$1.query.lang !== lang) {
+        if (router$1.query.lang && router$1.query.lang !== lang && translations && translations[router$1.query.lang]) {
             let lang = router$1.query.lang;
             setLang(lang);
         }

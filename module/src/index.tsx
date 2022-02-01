@@ -14,10 +14,14 @@ import { Dictionary, I18N } from "./types";
 const getDefaultLanguage = (userI18n: I18N): string => {
   let browserLang: string = "";
 
-  if (userI18n.useBrowserDefault && typeof window !== 'undefined' && (window?.navigator || navigator)) {
+  if (
+    userI18n.useBrowserDefault &&
+    typeof window !== "undefined" &&
+    window?.navigator
+  ) {
     browserLang = (
-      (navigator?.languages && navigator?.languages[0]) ||
-      navigator?.language
+      (window.navigator?.languages && window.navigator?.languages[0]) ||
+      window.navigator?.language
     )
       .split("-")[0]
       .toLowerCase();
