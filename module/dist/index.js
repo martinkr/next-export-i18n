@@ -23,9 +23,11 @@ const getDefaultLanguage = (userI18n) => {
     let browserLang = "";
     if (userI18n.useBrowserDefault &&
         typeof window !== "undefined" &&
-        window?.navigator) {
-        browserLang = ((window.navigator?.languages && window.navigator?.languages[0]) ||
-            window.navigator?.language)
+        window &&
+        window.navigator &&
+        (window.navigator.languages || window.navigator.language)) {
+        browserLang = ((window.navigator.languages && window.navigator.languages[0]) ||
+            window.navigator.language)
             .split("-")[0]
             .toLowerCase();
     }
