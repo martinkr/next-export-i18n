@@ -33,6 +33,8 @@ For the different types of pre-rendering in `Next.js`, take a look at my article
 There are a few things you need to keep in mind:
 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
+- you refer nested keys with a dot: "nested.key" (see example below). Please no not use dots in your keys unless you use nested keys.
+- if there is no translation for the given key, the module renders the key back to the site.
 - you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
 - it requires JavaScript being enabled on the client side.
 
@@ -45,7 +47,10 @@ There are a few things you need to keep in mind:
 
 ```json
 {
-  "myKey": "en translation"
+  "myKey": "en translation",
+  "nested" : {
+    "key": "nested en translation"
+  }
 }
 ```
 
@@ -53,7 +58,10 @@ There are a few things you need to keep in mind:
 
 ```json
 {
-  "myKey": "de translation"
+  "myKey": "de translation",
+  "nested" : {
+    "key": "nested en translation"
+  }
 }
 ```
 
@@ -102,7 +110,10 @@ const [query] = useLanguageQuery();
 const { t } = useTranslation();
 const key = "myKey";
 let string = t(key);
-// string will be "my translated key"
+// string will be "en translation" or "de translation
+const nestedKey = "nested.key";
+let nestedString = t(key);
+// nestedString will be "nested en translation" or "nested de translation
 ```
 
 ## Working with template strings in translation files
@@ -120,11 +131,11 @@ You can also provide a [mustache](https://mustache.github.io/) template in your 
 ### Module.js
 
 ```javascript
-	import { useTranslation} from 'next-export-i18n'
-	const { t } = useTranslation();
-	const key = 'myTemplate';
-	let string = t(key, { count: 2 }))
-	// string will be "2 times"
+ import { useTranslation} from 'next-export-i18n'
+ const { t } = useTranslation();
+ const key = 'myTemplate';
+ let string = t(key, { count: 2 }))
+ // string will be "2 times"
 ```
 
 ## Sample implementation
@@ -135,7 +146,7 @@ You can also take a look at the example implementation [next-export-i18n-example
 
 Well, you are looking for a very specific solution related to `Next.js`, so I assume you already know about `Next.js`. But anyway …
 
-### Run the development server:
+### Run the development server
 
 ```bash
 npm run dev
@@ -165,4 +176,4 @@ and `serve` the `./out` directory with your favorite web server.
 ## License
 
 Licensed under the MIT license.
-MIT - http://www.opensource.org/licenses/mit-license.php
+MIT - <http://www.opensource.org/licenses/mit-license.php>
