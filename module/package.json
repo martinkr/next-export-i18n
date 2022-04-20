@@ -8,7 +8,7 @@
     "./dist/package.json"
   ],
   "main": "./dist/index.js",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
@@ -64,6 +64,5 @@
   "bugs": {
     "url": "https://github.com/martinkr/next-export-i18n/issues"
   },
-  "homepage": "https://github.com/martinkr/next-export-i18n#readme",
-  "packageManager": "yarn@3.2.0"
+  "homepage": "https://github.com/martinkr/next-export-i18n#readme"
 }
