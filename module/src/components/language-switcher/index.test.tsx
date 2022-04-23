@@ -78,7 +78,7 @@ describe('The LanguageSwitcher Component ', () => {
 		const component = await screen.findByRole('button', {
 			name: `set language to ${lang}`,
 		});
-		userEvent.click(component);
+		await userEvent.click(component);
 		expect(push).toHaveBeenCalledWith(
 			{
 				pathname: undefined,
@@ -97,7 +97,7 @@ describe('The LanguageSwitcher Component ', () => {
 		const component = await screen.findByRole('button', {
 			name: `set language to ${lang}`,
 		});
-		userEvent.click(component);
+		await userEvent.click(component);
 		expect(push).toHaveBeenCalledWith(
 			{
 				pathname: undefined,
@@ -139,7 +139,7 @@ describe('The LanguageSwitcher Component takes the children prop and ', () => {
 		const component = await screen.findByRole('button', {
 			name: `set language to ${lang}`,
 		});
-		userEvent.click(component);
+		await userEvent.click(component);
 		expect(push).toHaveBeenCalledWith(
 			{
 				pathname: undefined,
@@ -165,7 +165,7 @@ describe('The LanguageSwitcher Component takes the children prop and ', () => {
 		const component = await screen.findByRole('button', {
 			name: `set language to ${lang}`,
 		});
-		userEvent.click(component);
+		await userEvent.click(component);
 		expect(mySpy).toHaveBeenCalled();
 		expect(push).toHaveBeenCalledWith(
 			{
@@ -191,7 +191,7 @@ describe('The LanguageSwitcher Component takes the children prop and ', () => {
 		const component = await screen.findByRole('button', {
 			name: `set language to ${lang}`,
 		});
-		userEvent.click(component);
+		await userEvent.click(component);
 		expect(push).toHaveBeenCalledWith(
 			{
 				pathname: undefined,

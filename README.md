@@ -48,7 +48,7 @@ There are a few things you need to keep in mind:
 ```json
 {
   "myKey": "en translation",
-  "nested" : {
+  "nested": {
     "key": "nested en translation"
   }
 }
@@ -59,7 +59,7 @@ There are a few things you need to keep in mind:
 ```json
 {
   "myKey": "de translation",
-  "nested" : {
+  "nested": {
     "key": "nested en translation"
   }
 }
@@ -168,10 +168,10 @@ and `serve` the `./out` directory with your favorite web server.
 
 ## Tech Stack
 
-- next.js: 11.0.1
-- react.js: 17.0.2
-- jest: 27.0.6
-- typescript: 4.3.5
+- next.js: 12.1.5
+- react.js: 18.0.0
+- jest: 27.5.1
+- typescript: 4.6.3
 
 ## License
 

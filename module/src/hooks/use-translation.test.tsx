@@ -1,9 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-// import { renderHook, act } from '@testing-library/react-hooks';
-import { cleanup } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks/dom'; // will use react-dom
+import { cleanup, renderHook } from '@testing-library/react';
 import { useTranslation } from './use-translation';
 
 // import useSelectedLanguage from './use-selected-language';
