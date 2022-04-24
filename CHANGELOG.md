@@ -1,3 +1,8 @@
+# 2.0.0
+
+- React v18
+- Next v12
+
 # 1.4.2
 
 - <https://github.com/martinkr/next-export-i18n/issues/24>
