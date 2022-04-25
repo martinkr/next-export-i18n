@@ -8,7 +8,7 @@
     "./dist/package.json"
   ],
   "main": "./dist/index.js",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
