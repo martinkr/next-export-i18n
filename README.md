@@ -1,4 +1,4 @@
-![next-export-i18n written over a mountain peak](next-i18n-export.png)
+![next-export-i18n written over a mountain peak](next-export-i18n.png)
 
 # `next-export-i18n` [![Build Status](https://app.travis-ci.com/martinkr/next-export-i18n.svg?branch=main)](https://app.travis-ci.com/martinkr/next-export-i18n)
 
@@ -27,9 +27,9 @@ They all support _pre-rendered sites_ which are _served with `Next.js`_ - where 
 For the different types of pre-rendering in `Next.js`, take a look at my article [The two and a half + one flavors of `Next.js`'s pre-rendering
 ](https://dev.to/martinkr/the-two-and-a-half-one-flavors-of-next-js-s-pre-rendering-44o) which explains and summarizes the different options.
 
-## `next-i18n-export` overview
+## `next-export-i18n` overview
 
-`next-i18n-export` will add a query-parameter `lang` to your urls and use this for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next / next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
+`next-export-i18n` will add a query-parameter `lang` to your urls and use this for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next / next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
 There are a few things you need to keep in mind:
 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
