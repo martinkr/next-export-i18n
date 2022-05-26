@@ -22,11 +22,11 @@ async function postBuild() {
       if (err) throw err;
     });
     console.log(
-      "post build: copy './../next-i18n-export.png' to './dist/next-i18n-export.png'"
+      "post build: copy './../next-export-i18n.png' to './dist/next-export-i18n.png'"
     );
     fs.copyFile(
-      "./../next-i18n-export.png",
-      "./dist/next-i18n-export.png",
+      "./../next-export-i18n.png",
+      "./dist/next-export-i18n.png",
       (err) => {
         if (err) throw err;
       }
