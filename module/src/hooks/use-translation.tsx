@@ -1,9 +1,11 @@
-
-import { useRouter } from 'next/router';
-import i18n from './../index';
-import { Dictionary, I18N } from '../types';
-import useSelectedLanguage from './use-selected-language';
 import Mustache from 'mustache';
+
+import i18n from '../index';
+import {
+  Dictionary,
+  I18N,
+} from '../types';
+import useSelectedLanguage from './use-selected-language';
 
 /**
  * Provides the t() function which returns the value stored for this given key (e.g. "i18n.ui.headline")
@@ -13,13 +15,11 @@ import Mustache from 'mustache';
  * @returns t(key: string): any function
  */
 const useTranslation = ( ) => {
-	const router = useRouter();
 	let i18nObj: I18N;
 
 	i18nObj = i18n() as I18N;
 
 	const translations: Dictionary = i18nObj.translations;
-	const defaultLang: string = i18nObj.defaultLang;  ;
 	const { lang } = useSelectedLanguage();
 	// const [lang] = useSelectedLanguage();
 
