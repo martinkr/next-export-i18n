@@ -12,21 +12,23 @@ import { LanguageDataStore } from '../enums/languageDataStore';
 export default function useLanguageSwitcherIsActive(currentLang: string) {
   const [isActive, setIsActive] = useState(false);
   const i18nObj = i18n() as I18N;
-  const { query } = useRouter();
+  const router = useRouter();
   const defaultLang = i18nObj.defaultLang;
   const languageDataStore = i18nObj.languageDataStore;
 
 	useEffect( () => {
     if (languageDataStore === LanguageDataStore.QUERY) {
-      let current = query.lang === currentLang;
+      let current;
 
-      if (!query || !query.lang) {
+      if (!router.query || !router.query.lang) {
         current = defaultLang === currentLang;
+      } else {
+        current = router.query?.lang === currentLang;
       }
 
       setIsActive(current);
     }
-	},[currentLang, defaultLang, query, languageDataStore]);
+	},[currentLang, defaultLang, router.query, languageDataStore]);
 
   useEffect( () => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
