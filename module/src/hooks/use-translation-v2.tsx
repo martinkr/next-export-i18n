@@ -1,6 +1,6 @@
 import i18n from './../index';
 import { Dictionary, I18N } from '../types';
-import useSelectedLanguage from './use-selected-language';
+import useSelectedLanguage from './use-selected-language-v2';
 import Mustache from 'mustache';
 
 /**
@@ -10,7 +10,7 @@ import Mustache from 'mustache';
  * In case there is no entry for this key, it returns the key.
  * @returns t(key: string): any function
  */
-const useTranslation = () => {
+const useTranslationV2 = () => {
 	let i18nObj: I18N;
 
 	i18nObj = i18n() as I18N;
@@ -18,7 +18,6 @@ const useTranslation = () => {
 	const translations: Dictionary = i18nObj.translations;
 	const defaultLang: string = i18nObj.defaultLang;;
 	const { lang } = useSelectedLanguage();
-	// const [lang] = useSelectedLanguage();
 
 	return {
 		/**
@@ -45,4 +44,4 @@ const useTranslation = () => {
 	};
 };
 
-export { useTranslation };
+export { useTranslationV2 };
