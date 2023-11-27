@@ -58,9 +58,10 @@ describe('The hook returns ', () => {
 				lang: 'forced',
 			},
 		];
-		useRouter.mockImplementation(() => ({
+		const routerReturn = {
 			query: { bar: 'baz', lang: 'foo' },
-		}));
+		};
+		useRouter.mockImplementation(() => (routerReturn));
 		useSelectedLanguage.mockImplementation(() => ({
 			lang: 'bar',
 		}));
@@ -76,9 +77,10 @@ describe('The hook returns ', () => {
 				lang: 'bar',
 			},
 		];
-		useRouter.mockImplementation(() => ({
+		const routerReturn = {
 			query: { bar: 'baz', lang: 'foo' },
-		}));
+		};
+		useRouter.mockImplementation(() => (routerReturn));
 		useSelectedLanguage.mockImplementation(() => ({
 			lang: 'bar',
 		}));
@@ -94,9 +96,10 @@ describe('The hook returns ', () => {
 				lang: 'foo',
 			},
 		];
-		useRouter.mockImplementation(() => ({
+		const routerReturn = {
 			query: { bar: 'baz', lang: 'foo' },
-		}));
+		};
+		useRouter.mockImplementation(() => (routerReturn));
 		useSelectedLanguage.mockImplementation(() => ({
 			lang: '',
 		}));
@@ -107,15 +110,45 @@ describe('The hook returns ', () => {
 
 	it(`an empty object if there is no query`, async () => {
 		const expectation = [{}];
-		useRouter.mockImplementation(() => ({
+		const routerReturn = {
 			query: null,
-		}));
+		};
+		useRouter.mockImplementation(() => (routerReturn));
 		useSelectedLanguage.mockImplementation(() => ({
 			lang: '',
 		}));
 
 		const { result } = renderHook(() => useLanguageQuery());
 		expect(result.current).toEqual(expectation);
+	});
+
+	it(`updates the query object if route changes`, async () => {
+		const expectation = [{}];
+		const routerReturn = {
+			query: null,
+		};
+		useRouter.mockImplementation(() => (routerReturn));
+		useSelectedLanguage.mockImplementation(() => ({
+			lang: '',
+		}));
+
+		const { result, rerender } = renderHook(() => useLanguageQuery());
+		expect(result.current).toEqual(expectation);
+
+		const newQuery = {
+			id: 'foo',
+			lang: 'en',
+		}
+		useRouter.mockImplementation(() => ({ query: newQuery }))
+
+		// hook rerenders when route changes and query object is updated
+		rerender()
+
+		const expectation2 = [{
+			id: 'foo',
+			lang: 'en'
+		}];
+		expect(result.current).toEqual(expectation2);
 	});
 });
 //

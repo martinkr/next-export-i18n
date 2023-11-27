@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { ParsedUrlQueryInput, ParsedUrlQuery } from 'node:querystring';
-import { useEffect, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import useSelectedLanguage from './use-selected-language';
 import { Dictionary } from '../types';
 
@@ -21,15 +21,13 @@ export default function useLanguageQuery(forceLang?: string) {
 	const [value, setValue] = useState<ParsedUrlQueryInput>();
 
 	// keep passed parameters
-	passedQuery = {};
+	const passedQuery = useMemo(() => {
+		if (!router.query) {
+			return {};
+		}
 
-	if (router.query) {
-		let query: ParsedUrlQuery = router.query;
-		const keys = Object.keys(query);
-		keys.forEach((key: string, index: number) => {
-			passedQuery[key] = query[key] as string;
-		});
-	}
+		return {...router.query};
+	}, [router.query]);
 
 	// set lang if one of the dependencies is changing
 	useEffect(() => {
@@ -37,7 +35,7 @@ export default function useLanguageQuery(forceLang?: string) {
 			...passedQuery,
 			lang: forceLang || (lang as string) || (passedQuery['lang'] as string),
 		});
-	}, [forceLang, lang]);
+	}, [forceLang, lang, passedQuery]);
 
 	return [value] as const;
 }

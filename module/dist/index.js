@@ -115,7 +115,6 @@ function useSelectedLanguage() {
     return { lang, setLang };
 }
 
-let passedQuery;
 /**
  * Returns a react-state which is a queryObject containing an exsisting query and a query string with the current selected
  * language (or the passed forced language).
@@ -129,21 +128,19 @@ function useLanguageQuery(forceLang) {
     const router$1 = router.useRouter();
     const [value, setValue] = React.useState();
     // keep passed parameters
-    passedQuery = {};
-    if (router$1.query) {
-        let query = router$1.query;
-        const keys = Object.keys(query);
-        keys.forEach((key, index) => {
-            passedQuery[key] = query[key];
-        });
-    }
+    const passedQuery = React.useMemo(() => {
+        if (!router$1.query) {
+            return {};
+        }
+        return { ...router$1.query };
+    }, [router$1.query]);
     // set lang if one of the dependencies is changing
     React.useEffect(() => {
         setValue({
             ...passedQuery,
             lang: forceLang || lang || passedQuery['lang'],
         });
-    }, [forceLang, lang]);
+    }, [forceLang, lang, passedQuery]);
     return [value];
 }
 
