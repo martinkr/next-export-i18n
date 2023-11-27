@@ -29,13 +29,14 @@ For the different types of pre-rendering in `Next.js`, take a look at my article
 
 ## `next-export-i18n` overview
 
-`next-export-i18n` will add a query-parameter `lang` to your urls and use this for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next / next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
+`next-export-i18n` will either add a query parameter (default) `lang` to your urls or store it in the browser's local storage. This will be used for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next / next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
 There are a few things you need to keep in mind:
 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
 - you refer nested keys with a dot: "nested.key" (see example below). Please no not use dots in your keys unless you use nested keys.
 - if there is no translation for the given key, the module renders the key back to the site.
-- you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
+- if you use the query param (default) variant to store your language selection, you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
+- if you use the local storage variant, the above does not apply to you.
 - it requires JavaScript being enabled on the client side.
 
 ## Quick start
@@ -78,6 +79,8 @@ const i18n = {
   },
   defaultLang: "en",
   useBrowserDefault: true,
+  // optional property, will default to "query" if not set
+  languageDataStore: "query" || "localStorage",
 };
 
 module.exports = i18n;

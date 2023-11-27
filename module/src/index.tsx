@@ -3,7 +3,8 @@
  */
 
 import { i18n as userland } from "./../../i18n/index";
-import { Dictionary, I18N } from "./types";
+import { I18N } from "./types";
+import { LanguageDataStore } from './enums/languageDataStore';
 
 /**
  * Calculates the default language from the user's language setting and the i18n object.
@@ -47,22 +48,38 @@ const getDefaultLanguage = (userI18n: I18N): string => {
 const i18n = (): I18N | Error => {
   // cast to be typsafe
   const userI18n = userland as I18N;
+
   if (Object.keys(userI18n.translations).length < 1) {
     throw new Error(
       `Missing translations. Did you import and add the tranlations in 'i18n/index.js'?`
     );
   }
+
   if (userI18n.defaultLang.length === 0) {
     throw new Error(
       `Missing default language. Did you set 'defaultLang' in 'i18n/index.js'?`
     );
   }
+
   if (!userI18n.translations[userI18n.defaultLang]) {
     throw new Error(
       `Invalid default language '${userI18n.defaultLang}'. Check your 'defaultLang' in 'i18n/index.js'?`
     );
   }
+
+  // Make query the default storing method, to allow backwards compatibility
+  if (!userI18n.languageDataStore) {
+    userI18n.languageDataStore = LanguageDataStore.QUERY;
+  }
+
+  if (!Object.values(LanguageDataStore).includes(userI18n.languageDataStore)) {
+    throw new Error(
+      `Invalid language detection '${userI18n.languageDataStore}'. Check your 'languageDataStore' in 'i18n/index.js'?`
+    );
+  }
+
   userI18n.defaultLang = getDefaultLanguage(userI18n);
+
   return userI18n;
 };
 

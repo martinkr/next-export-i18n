@@ -1,8 +1,10 @@
-
 import React, { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import useLanguageQuery from '../../hooks/use-language-query';
 import useLanguageSwitcherIsActive from '../../hooks/use-language-switcher-is-active';
+import i18n from '../../index';
+import { I18N } from '../../types';
+import { LanguageDataStore } from '../../enums/languageDataStore';
 
 type Props = {
 	lang: string,
@@ -31,18 +33,30 @@ const LanguageSwitcher = ({ lang, children, shallow=false }: Props) => {
 	const router = useRouter();
 	const [query] = useLanguageQuery(lang);
 
+  const i18nObj = i18n() as I18N;
+  const languageDataStore = i18nObj.languageDataStore;
+
 	/**
 	 * Updates the router with the currently selected language
 	 */
-	const updateRouter = () => {
-		router.push(
-			{
-				pathname: router.pathname,
-				query: query,
-			},
-			undefined,
-			{ shallow: shallow }
-		);
+	const handleLanguageChange = () => {
+    if (languageDataStore === LanguageDataStore.QUERY) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: query,
+        },
+        undefined,
+        { shallow: shallow }
+      );
+    }
+
+    if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+      window.localStorage.setItem('lang', lang);
+
+      const event = new Event("localStorageLangChange");
+      document.dispatchEvent(event);
+    }
 	};
 
 	// use React.cloneElement to manipulate properties
@@ -57,7 +71,7 @@ const LanguageSwitcher = ({ lang, children, shallow=false }: Props) => {
 					children.props.onClick();
 				}
 				// set the language
-				updateRouter();
+				handleLanguageChange();
 			},
 			"data-language-switcher": "true",
 			// set the current status
@@ -75,7 +89,7 @@ const LanguageSwitcher = ({ lang, children, shallow=false }: Props) => {
 				data-is-current={languageSwitcherIsActive}
 				onClick={() => {
 					// set the language
-					updateRouter();
+					handleLanguageChange();
 				}}
 			>
 				{children}

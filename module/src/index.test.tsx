@@ -26,6 +26,7 @@ const mockedData: any = {
   translations: { mock: { title: "mock" }, foo: { title: "bar" } },
   defaultLang: "mock",
   useBrowserDefault: true,
+  languageDataStore: "query",
 };
 
 describe("Without window.navigator", () => {

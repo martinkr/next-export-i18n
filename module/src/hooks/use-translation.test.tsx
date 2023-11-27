@@ -122,9 +122,5 @@ describe('The hook returns ', () => {
 		useSelectedLanguage.mockImplementation(() => ({
 			lang: 'bar',
 		}));
-
-		// const { result } = renderHook(() => useLanguageQuery('forced'));
-		// expect(result.current).toEqual(expectation);
 	});
 });
-//
