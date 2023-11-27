@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import i18n from '../index';
-import { I18N } from '../types';
-import { LanguageDataStore } from '../enums/languageDataStore';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import i18n from "../index";
+import { I18N } from "../types";
+import { LanguageDataStore } from "../enums/languageDataStore";
 
 /**
  * Returns a boolean react-state indicating if the current selected language equals the one passed to the hook.
@@ -16,7 +16,7 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
   const defaultLang = i18nObj.defaultLang;
   const languageDataStore = i18nObj.languageDataStore;
 
-	useEffect( () => {
+  useEffect(() => {
     if (languageDataStore === LanguageDataStore.QUERY) {
       let current;
 
@@ -28,11 +28,11 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
 
       setIsActive(current);
     }
-	},[currentLang, defaultLang, router.query, languageDataStore]);
+  }, [currentLang, defaultLang, router.query, languageDataStore]);
 
-  useEffect( () => {
+  useEffect(() => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
-      const localStorageLanguage = window.localStorage.getItem('lang');
+      const localStorageLanguage = window.localStorage.getItem("lang");
       let current = defaultLang === currentLang;
 
       if (localStorageLanguage) {
@@ -41,9 +41,7 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
 
       setIsActive(current);
     }
-  },[currentLang, defaultLang, languageDataStore]);
+  }, [currentLang, defaultLang, languageDataStore]);
 
-	return { isActive } as const;
+  return { isActive } as const;
 }
-
-
