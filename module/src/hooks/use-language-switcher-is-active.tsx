@@ -32,7 +32,9 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
 
   useEffect(() => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
-      const localStorageLanguage = window.localStorage.getItem("lang");
+      const localStorageLanguage = window.localStorage.getItem(
+        "next-export-i18n-lang"
+      );
       let current = defaultLang === currentLang;
 
       if (localStorageLanguage) {
