@@ -1,4 +1,4 @@
-import { LanguageDataStore } from '../enums/languageDataStore';
+import { LanguageDataStore } from "../enums/languageDataStore";
 
 export type Dictionary = { [key: string]: string | Dictionary };
 
