@@ -53,7 +53,6 @@ const LanguageSwitcher = ({ lang, children, shallow = false }: Props) => {
 
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
       window.localStorage.setItem("next-export-i18n-lang", lang);
-
       const event = new Event("localStorageLangChange");
       document.dispatchEvent(event);
     }

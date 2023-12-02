@@ -18,43 +18,28 @@ export default function useSelectedLanguage() {
   const router = useRouter();
   const [lang, setLang] = useState<string>(defaultLang);
 
+  // set the language if the localStorage value has changed
   const handleLocalStorageUpdate = useCallback(() => {
-    const localStorageLang = window.localStorage.getItem(
-      "next-export-i18n-lang"
-    );
+    const storedLang = window.localStorage.getItem("next-export-i18n-lang");
 
     if (
       languageDataStore === LanguageDataStore.LOCAL_STORAGE &&
-      localStorageLang &&
-      localStorageLang !== lang &&
+      storedLang &&
+      storedLang !== lang &&
       translations &&
-      translations[localStorageLang]
+      translations[storedLang]
     ) {
-      setLang(localStorageLang);
+      setLang(storedLang);
     }
   }, [translations, lang, setLang, languageDataStore]);
 
-  // set the language if the query parameter changes
-  useEffect(() => {
-    if (
-      languageDataStore === LanguageDataStore.QUERY &&
-      router.query.lang &&
-      router.query.lang !== lang &&
-      translations &&
-      translations[router.query.lang as string]
-    ) {
-      setLang(router.query.lang as string);
-    }
-  }, [lang, router.query.lang, translations, setLang, languageDataStore]);
-
+  // Listen for local-storage changes
   useEffect(() => {
     handleLocalStorageUpdate();
 
-    // Listen for local-storage changes
-    document.addEventListener(
-      "localStorageLangChange",
-      handleLocalStorageUpdate
-    );
+    document.addEventListener("localStorageLangChange", () => {
+      handleLocalStorageUpdate();
+    });
 
     return () => {
       document.removeEventListener(
@@ -63,6 +48,21 @@ export default function useSelectedLanguage() {
       );
     };
   }, [handleLocalStorageUpdate]);
+
+  // set the language if the query parameter changes
+  useEffect(() => {
+    const storedLang = router.query?.lang as string;
+
+    if (
+      languageDataStore === LanguageDataStore.QUERY &&
+      storedLang &&
+      storedLang !== lang &&
+      translations &&
+      translations[storedLang]
+    ) {
+      setLang(storedLang);
+    }
+  }, [lang, router.query.lang, translations, setLang, languageDataStore]);
 
   return { lang, setLang } as const;
 }
