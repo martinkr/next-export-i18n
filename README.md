@@ -29,7 +29,7 @@ For the different types of pre-rendering in `Next.js`, take a look at my article
 
 ## `next-export-i18n` overview
 
-`next-export-i18n` will either add a query parameter (default) `lang` to your urls or store it in the browser's local storage. This will be used for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next / next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
+Depending on the configuration property `languageDataStore`, `next-export-i18n` will either add a `query` parameter (default) `lang` to your urls it in the browser's `localStorage`. This will be used for setting the correct content for the selected language. The interface for the i18n-content is similar to `react-i18next/next-i18next`. You add get the content with `t(key.to.translation)` from the `useTranslation`-hook.
 There are a few things you need to keep in mind:
 
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
