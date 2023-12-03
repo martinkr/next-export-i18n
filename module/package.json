@@ -8,7 +8,7 @@
     "./dist/package.json"
   ],
   "main": "./dist/index.js",
-  "version": "3.0.0-rc.1",
+  "version": "3.0.0-alpha",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
