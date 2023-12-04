@@ -24,7 +24,11 @@ type Dict = { [key: string]: string };
  * @param [children] React.nodes
  * @param [shallow] enable or disable shallow routing, @see https://nextjs.org/docs/routing/shallow-routing
  */
-const LanguageSwitcher = ({ lang, children, shallow = false }: Props) => {
+const LanguageSwitcher = ({
+  lang,
+  children,
+  shallow = false,
+}: Props): JSX.Element => {
   // state indicating if this component's target language matches the currently selected
   const { isActive: languageSwitcherIsActive } =
     useLanguageSwitcherIsActive(lang);
@@ -60,7 +64,7 @@ const LanguageSwitcher = ({ lang, children, shallow = false }: Props) => {
 
   // use React.cloneElement to manipulate properties
   if (React.isValidElement(children)) {
-    return React.cloneElement(children, {
+    return React.cloneElement(children as React.ReactElement<any>, {
       onClick: () => {
         if (
           children &&

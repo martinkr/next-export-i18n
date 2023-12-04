@@ -2,6 +2,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var router = require('next/router');
 var React = require('react');
+var navigation = require('next/navigation');
 var I18N = require('./../../i18n/index.js');
 var Mustache = require('mustache');
 
@@ -84,7 +85,7 @@ function useSelectedLanguage() {
     const defaultLang = i18nObj.defaultLang;
     const translations = i18nObj.translations;
     const languageDataStore = i18nObj.languageDataStore;
-    const router$1 = router.useRouter();
+    const searchParams = navigation.useSearchParams();
     const [lang, setLang] = React.useState(defaultLang);
     // set the language if the localStorage value has changed
     const handleLocalStorageUpdate = React.useCallback(() => {
@@ -107,9 +108,10 @@ function useSelectedLanguage() {
             document.removeEventListener("localStorageLangChange", handleLocalStorageUpdate);
         };
     }, [handleLocalStorageUpdate]);
+    const searchParamsLang = searchParams.get("lang");
     // set the language if the query parameter changes
     React.useEffect(() => {
-        const storedLang = router$1.query?.lang;
+        const storedLang = searchParams.get("lang");
         if (languageDataStore === LanguageDataStore.QUERY &&
             storedLang &&
             storedLang !== lang &&
@@ -117,7 +119,7 @@ function useSelectedLanguage() {
             translations[storedLang]) {
             setLang(storedLang);
         }
-    }, [lang, router$1.query.lang, translations, setLang, languageDataStore]);
+    }, [lang, searchParamsLang, translations, setLang, languageDataStore]);
     return { lang, setLang };
 }
 
@@ -233,7 +235,7 @@ const useTranslation = () => {
  * @param [children] React.nodes
  * @param [shallow] enable or disable shallow routing, @see https://nextjs.org/docs/routing/shallow-routing
  */
-const LanguageSwitcher = ({ lang, children, shallow = false }) => {
+const LanguageSwitcher = ({ lang, children, shallow = false, }) => {
     // state indicating if this component's target language matches the currently selected
     const { isActive: languageSwitcherIsActive } = useLanguageSwitcherIsActive(lang);
     // necessary for updating the router's query parameter inside the click handler

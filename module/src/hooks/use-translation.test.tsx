@@ -3,8 +3,7 @@
  */
 import { cleanup, renderHook } from "@testing-library/react";
 import { useTranslation } from "./use-translation";
-
-// import useSelectedLanguage from './use-selected-language';
+import useSelectedLanguage from "./use-selected-language";
 
 jest.mock("./../../../i18n/index", () => {
   return {
@@ -19,37 +18,17 @@ jest.mock("./../../../i18n/index", () => {
           levelOne: { levelOneString: "levelOneMock" },
         },
       },
+      languageDataStore: "query",
       defaultLang: "mock",
     },
   };
 });
 
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-    };
-  },
-}));
-const useRouter = jest.spyOn(require("next/router"), "useRouter");
-
-jest.mock("./use-selected-language", () => {
-  return {
-    __esModule: true,
-    default: () => {},
-  };
-});
-
-const useSelectedLanguage = jest.spyOn(
-  require("./use-selected-language"),
-  "default"
-);
+jest.mock("./use-selected-language");
+const mockUseSelectedLanguage = useSelectedLanguage as jest.MockedFunction<any>;
 
 beforeEach(() => {
-  useSelectedLanguage.mockImplementation(() => ({
+  mockUseSelectedLanguage.mockImplementation(() => ({
     lang: "mock",
   }));
 });
@@ -105,22 +84,5 @@ describe("The hook exports a function ", () => {
     const expectation = key;
     const { result } = renderHook(() => useTranslation());
     expect(result.current.t(key)).toEqual(expectation);
-  });
-});
-
-describe("The hook returns ", () => {
-  xit(`the query object with lang = forceLang if forceLang is passed `, async () => {
-    const expectation = [
-      {
-        bar: "baz",
-        lang: "forced",
-      },
-    ];
-    useRouter.mockImplementation(() => ({
-      query: { bar: "baz", lang: "foo" },
-    }));
-    useSelectedLanguage.mockImplementation(() => ({
-      lang: "bar",
-    }));
   });
 });

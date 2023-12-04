@@ -4,6 +4,15 @@
 import { cleanup, renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import useSelectedLanguage from "./use-selected-language";
+import { useSearchParams } from "next/navigation";
+jest.mock("next/navigation");
+
+const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+const mockGet = jest.fn();
+
+mockUseSearchParams.mockReturnValue({
+  get: mockGet,
+});
 
 jest.mock("./../../../i18n/index", () => {
   return {

@@ -6,15 +6,15 @@ interface LinkWithLocaleProps extends LinkProps {
   children: ReactNode;
 }
 
-export function LinkWithLocale(props: LinkWithLocaleProps) {
+export function LinkWithLocale(props: LinkWithLocaleProps): ReactNode {
   const { lang } = useSelectedLanguage();
   const { href, ...rest } = props;
   const link = useMemo(() => {
     const inputHref = href.toString();
-    if(inputHref.includes("?lang=") || inputHref.includes("&lang=")){
-        return inputHref;
+    if (inputHref.includes("?lang=") || inputHref.includes("&lang=")) {
+      return inputHref;
     }
-    if (inputHref.includes('?')) {
+    if (inputHref.includes("?")) {
       return `${inputHref}&lang=${lang}`;
     } else {
       return `${inputHref}?lang=${lang}`;
