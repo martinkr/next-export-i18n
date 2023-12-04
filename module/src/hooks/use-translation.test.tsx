@@ -24,6 +24,18 @@ jest.mock('./../../../i18n/index', () => {
 	};
 });
 
+jest.mock('next/router', () => ({
+	useRouter() {
+		return {
+			route: '/',
+			pathname: '',
+			query: '',
+			asPath: '',
+		};
+	},
+}));
+const useRouter = jest.spyOn(require('next/router'), 'useRouter');
+
 jest.mock('./use-selected-language', () => {
 	return {
 		__esModule: true,
@@ -93,5 +105,22 @@ describe('The hook exports a function ', () => {
 		const expectation = key;
 		const { result } = renderHook(() => useTranslation());
 		expect(result.current.t(key)).toEqual(expectation);
+	});
+});
+
+describe('The hook returns ', () => {
+	it(`the query object with lang = forceLang if forceLang is passed `, async () => {
+		const expectation = [
+			{
+				bar: 'baz',
+				lang: 'forced',
+			},
+		];
+		useRouter.mockImplementation(() => ({
+			query: { bar: 'baz', lang: 'foo' },
+		}));
+		useSelectedLanguage.mockImplementation(() => ({
+			lang: 'bar',
+		}));
 	});
 });

@@ -10,6 +10,12 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
 
+var LanguageDataStore;
+(function (LanguageDataStore) {
+    LanguageDataStore["QUERY"] = "query";
+    LanguageDataStore["LOCAL_STORAGE"] = "localStorage";
+})(LanguageDataStore || (LanguageDataStore = {}));
+
 /**
  * The entry files for the separated hooks
  */
@@ -47,6 +53,10 @@ const getDefaultLanguage = (userI18n) => {
 const i18n = () => {
     // cast to be typsafe
     const userI18n = I18N;
+    // Set "query" as default
+    if (!userI18n.languageDataStore) {
+        userI18n.languageDataStore = LanguageDataStore.QUERY;
+    }
     if (Object.keys(userI18n.translations).length < 1) {
         throw new Error(`Missing translations. Did you import and add the tranlations in 'i18n/index.js'?`);
     }
@@ -56,6 +66,11 @@ const i18n = () => {
     if (!userI18n.translations[userI18n.defaultLang]) {
         throw new Error(`Invalid default language '${userI18n.defaultLang}'. Check your 'defaultLang' in 'i18n/index.js'?`);
     }
+    // if (!Object.values(LanguageDataStore).includes(userI18n.languageDataStore)) {
+    //   throw new Error(
+    //     `Invalid language detection '${userI18n.languageDataStore}'. Check your 'languageDataStore' in 'i18n/index.js'?`
+    //   );
+    // }
     userI18n.defaultLang = getDefaultLanguage(userI18n);
     return userI18n;
 };
@@ -65,24 +80,47 @@ const i18n = () => {
  * @returns [lang as string, setLang as SetStateAction] a react-state containing the currently selected language
  */
 function useSelectedLanguage() {
-    let i18nObj;
-    i18nObj = i18n();
+    const i18nObj = i18n();
     const defaultLang = i18nObj.defaultLang;
     const translations = i18nObj.translations;
+    const languageDataStore = i18nObj.languageDataStore;
     const router$1 = router.useRouter();
     const [lang, setLang] = React.useState(defaultLang);
+    // set the language if the localStorage value has changed
+    const handleLocalStorageUpdate = React.useCallback(() => {
+        const storedLang = window.localStorage.getItem("next-export-i18n-lang");
+        if (languageDataStore === LanguageDataStore.LOCAL_STORAGE &&
+            storedLang &&
+            storedLang !== lang &&
+            translations &&
+            translations[storedLang]) {
+            setLang(storedLang);
+        }
+    }, [translations, lang, setLang, languageDataStore]);
+    // Listen for local-storage changes
+    React.useEffect(() => {
+        handleLocalStorageUpdate();
+        document.addEventListener("localStorageLangChange", () => {
+            handleLocalStorageUpdate();
+        });
+        return () => {
+            document.removeEventListener("localStorageLangChange", handleLocalStorageUpdate);
+        };
+    }, [handleLocalStorageUpdate]);
     // set the language if the query parameter changes
     React.useEffect(() => {
-        if (router$1.query.lang && router$1.query.lang !== lang && translations && translations[router$1.query.lang]) {
-            let lang = router$1.query.lang;
-            setLang(lang);
+        const storedLang = router$1.query?.lang;
+        if (languageDataStore === LanguageDataStore.QUERY &&
+            storedLang &&
+            storedLang !== lang &&
+            translations &&
+            translations[storedLang]) {
+            setLang(storedLang);
         }
-    }, [lang, router$1.query.lang]);
+    }, [lang, router$1.query.lang, translations, setLang, languageDataStore]);
     return { lang, setLang };
-    // return [lang, setLang] as const;
 }
 
-let passedQuery;
 /**
  * Returns a react-state which is a queryObject containing an exsisting query and a query string with the current selected
  * language (or the passed forced language).
@@ -96,21 +134,19 @@ function useLanguageQuery(forceLang) {
     const router$1 = router.useRouter();
     const [value, setValue] = React.useState();
     // keep passed parameters
-    passedQuery = {};
-    if (router$1.query) {
-        let query = router$1.query;
-        const keys = Object.keys(query);
-        keys.forEach((key, index) => {
-            passedQuery[key] = query[key];
-        });
-    }
+    const passedQuery = React.useMemo(() => {
+        if (!router$1.query) {
+            return {};
+        }
+        return { ...router$1.query };
+    }, [router$1.query]);
     // set lang if one of the dependencies is changing
     React.useEffect(() => {
         setValue({
             ...passedQuery,
             lang: forceLang || lang || passedQuery['lang'],
         });
-    }, [forceLang, lang]);
+    }, [forceLang, lang, passedQuery]);
     return [value];
 }
 
@@ -120,23 +156,34 @@ function useLanguageQuery(forceLang) {
  * @returns boolean react-state
  */
 function useLanguageSwitcherIsActive(currentLang) {
-    let i18nObj;
-    i18nObj = i18n();
-    const defaultLang = i18nObj.defaultLang;
-    const router$1 = router.useRouter();
     const [isActive, setIsActive] = React.useState(false);
+    const i18nObj = i18n();
+    const router$1 = router.useRouter();
+    const defaultLang = i18nObj.defaultLang;
+    const languageDataStore = i18nObj.languageDataStore;
     React.useEffect(() => {
-        let current = false;
-        if (!router$1.query || !router$1.query.lang) {
-            current = defaultLang === currentLang;
+        if (languageDataStore === LanguageDataStore.QUERY) {
+            let current;
+            if (!router$1.query || !router$1.query.lang) {
+                current = defaultLang === currentLang;
+            }
+            else {
+                current = router$1.query?.lang === currentLang;
+            }
+            setIsActive(current);
         }
-        else {
-            current = router$1.query.lang === currentLang;
+    }, [currentLang, defaultLang, router$1.query, languageDataStore]);
+    React.useEffect(() => {
+        if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+            const localStorageLanguage = window.localStorage.getItem("next-export-i18n-lang");
+            let current = defaultLang === currentLang;
+            if (localStorageLanguage) {
+                current = localStorageLanguage === currentLang;
+            }
+            setIsActive(current);
         }
-        setIsActive(current);
-    }, [currentLang, defaultLang, router$1.query]);
+    }, [currentLang, defaultLang, languageDataStore]);
     return { isActive };
-    // return [isActive] as const;
 }
 
 /**
@@ -147,13 +194,10 @@ function useLanguageSwitcherIsActive(currentLang) {
  * @returns t(key: string): any function
  */
 const useTranslation = () => {
-    router.useRouter();
     let i18nObj;
     i18nObj = i18n();
     const translations = i18nObj.translations;
-    i18nObj.defaultLang;
     const { lang } = useSelectedLanguage();
-    // const [lang] = useSelectedLanguage();
     return {
         /**
          * Returns the value stored for this given key (e.g. "i18n.ui.headline")  in the translation file.
@@ -164,7 +208,9 @@ const useTranslation = () => {
          * @returns the value stored for this key, could be a string, a number, an array or an object
          */
         t: (key, view) => {
-            let value = key.split('.').reduce((previous, current) => (previous && previous[current]) || null, translations[lang]);
+            let value = key
+                .split(".")
+                .reduce((previous, current) => (previous && previous[current]) || null, translations[lang]);
             let translation = value || key;
             try {
                 return Mustache__default["default"].render(translation, view);
@@ -193,14 +239,23 @@ const LanguageSwitcher = ({ lang, children, shallow = false }) => {
     // necessary for updating the router's query parameter inside the click handler
     const router$1 = router.useRouter();
     const [query] = useLanguageQuery(lang);
+    const i18nObj = i18n();
+    const languageDataStore = i18nObj.languageDataStore;
     /**
      * Updates the router with the currently selected language
      */
-    const updateRouter = () => {
-        router$1.push({
-            pathname: router$1.pathname,
-            query: query,
-        }, undefined, { shallow: shallow });
+    const handleLanguageChange = () => {
+        if (languageDataStore === LanguageDataStore.QUERY) {
+            router$1.push({
+                pathname: router$1.pathname,
+                query: query,
+            }, undefined, { shallow: shallow });
+        }
+        if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+            window.localStorage.setItem("next-export-i18n-lang", lang);
+            const event = new Event("localStorageLangChange");
+            document.dispatchEvent(event);
+        }
     };
     // use React.cloneElement to manipulate properties
     if (React__default["default"].isValidElement(children)) {
@@ -208,23 +263,23 @@ const LanguageSwitcher = ({ lang, children, shallow = false }) => {
             onClick: () => {
                 if (children &&
                     children.props &&
-                    typeof children.props.onClick === 'function') {
+                    typeof children.props.onClick === "function") {
                     children.props.onClick();
                 }
                 // set the language
-                updateRouter();
+                handleLanguageChange();
             },
             "data-language-switcher": "true",
             // set the current status
             "data-is-current": languageSwitcherIsActive,
-            "role": "button",
-            "aria-label": `set language to ${lang}`
+            role: "button",
+            "aria-label": `set language to ${lang}`,
         });
     }
     else {
         return (React__default["default"].createElement("span", { role: "button", "aria-label": `set language to ${lang}`, "data-language-switcher": "true", "data-is-current": languageSwitcherIsActive, onClick: () => {
                 // set the language
-                updateRouter();
+                handleLanguageChange();
             } }, children));
     }
 };

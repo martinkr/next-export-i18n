@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { i18n as userland } from "./../../i18n/index";
+import { LanguageDataStore } from "./enums/languageDataStore";
 import index from "./index";
 import { I18N } from "./types";
 const navigator = {
@@ -26,6 +27,7 @@ const mockedData: any = {
   translations: { mock: { title: "mock" }, foo: { title: "bar" } },
   defaultLang: "mock",
   useBrowserDefault: true,
+  languageDataStore: "query",
 };
 
 describe("Without window.navigator", () => {
@@ -67,6 +69,24 @@ describe("With window.navigator", () => {
     it(`the data from 'i18n/index.js'`, async () => {
       const i18nObj = index() as I18N;
       expect(i18nObj).toStrictEqual(mockedData);
+    });
+
+    it(`"query" as the default language store`, async () => {
+      userland["languageDataStore"] = undefined;
+      const i18nObj = index() as I18N;
+      expect(i18nObj.languageDataStore).toStrictEqual("query");
+    });
+
+    it(`"localStorage" as the language store if the user chooses "localStorage" `, async () => {
+      userland["languageDataStore"] = LanguageDataStore.LOCAL_STORAGE;
+      const i18nObj = index() as I18N;
+      expect(i18nObj.languageDataStore).toStrictEqual("localStorage");
+    });
+
+    it(`"query" as the language store if the user chooses "query" `, async () => {
+      userland["languageDataStore"] = LanguageDataStore.QUERY;
+      const i18nObj = index() as I18N;
+      expect(i18nObj.languageDataStore).toStrictEqual("query");
     });
 
     it(`should preserve the defaultLanguage if the browser has a default lang which is not part of the i18n`, async () => {
