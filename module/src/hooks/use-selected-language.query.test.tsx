@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { useSearchParams } from "next/navigation";
 import { cleanup, renderHook } from "@testing-library/react";
 import useSelectedLanguage from "./use-selected-language";
 
@@ -16,14 +15,18 @@ jest.mock("./../../../i18n/index", () => {
   };
 });
 
-jest.mock("next/navigation");
+jest.mock("next/router", () => ({
+  useRouter() {
+    return {
+      route: "/",
+      pathname: "",
+      query: "",
+      asPath: "",
+    };
+  },
+}));
 
-const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
-const mockGet = jest.fn();
-
-mockUseSearchParams.mockReturnValue({
-  get: mockGet,
-});
+const useRouter = jest.spyOn(require("next/router"), "useRouter");
 
 beforeEach(() => {});
 
@@ -32,25 +35,33 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe("The hook returns ", () => {
+describe("With query, the hook returns ", () => {
   it(`the default language if there is no router query object  `, async () => {
-    mockGet.mockReturnValue(null);
+    useRouter.mockImplementation(() => ({
+      query: {},
+    }));
     const { result } = renderHook(() => useSelectedLanguage());
     expect(result.current.lang).toBe("mock");
   });
 
   it(`the language from the router query object  `, async () => {
-    mockGet.mockReturnValue("foo");
+    useRouter.mockImplementation(() => ({
+      query: { lang: "foo" },
+    }));
     const { result } = renderHook(() => useSelectedLanguage());
     expect(result.current.lang).toBe("foo");
   });
 
   it(`the updated language if the router query object changes`, async () => {
-    mockGet.mockReturnValue("foo");
+    useRouter.mockImplementation(() => ({
+      query: { lang: "foo" },
+    }));
     const { result: firstResult } = renderHook(() => useSelectedLanguage());
     expect(firstResult.current.lang).toBe("foo");
 
-    mockGet.mockReturnValue("bar");
+    useRouter.mockImplementation(() => ({
+      query: { lang: "bar" },
+    }));
     const { result } = renderHook(() => useSelectedLanguage());
     expect(result.current.lang).toBe("mock");
   });

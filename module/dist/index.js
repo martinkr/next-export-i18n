@@ -2,7 +2,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var router = require('next/router');
 var React = require('react');
-var navigation = require('next/navigation');
 var I18N = require('./../../i18n/index.js');
 var Mustache = require('mustache');
 
@@ -85,10 +84,10 @@ function useSelectedLanguage() {
     const defaultLang = i18nObj.defaultLang;
     const translations = i18nObj.translations;
     const languageDataStore = i18nObj.languageDataStore;
-    const searchParams = navigation.useSearchParams();
+    const router$1 = router.useRouter();
     const [lang, setLang] = React.useState(defaultLang);
     // set the language if the localStorage value has changed
-    const handleLocalStorageUpdate = React.useCallback(() => {
+    const handleLocalStorageUpdate = () => {
         const storedLang = window.localStorage.getItem("next-export-i18n-lang");
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE &&
             storedLang &&
@@ -97,7 +96,7 @@ function useSelectedLanguage() {
             translations[storedLang]) {
             setLang(storedLang);
         }
-    }, [translations, lang, setLang, languageDataStore]);
+    };
     // Listen for local-storage changes
     React.useEffect(() => {
         handleLocalStorageUpdate();
@@ -108,10 +107,9 @@ function useSelectedLanguage() {
             document.removeEventListener("localStorageLangChange", handleLocalStorageUpdate);
         };
     }, [handleLocalStorageUpdate]);
-    const searchParamsLang = searchParams.get("lang");
     // set the language if the query parameter changes
     React.useEffect(() => {
-        const storedLang = searchParams.get("lang");
+        const storedLang = router$1.query?.lang;
         if (languageDataStore === LanguageDataStore.QUERY &&
             storedLang &&
             storedLang !== lang &&
@@ -119,7 +117,7 @@ function useSelectedLanguage() {
             translations[storedLang]) {
             setLang(storedLang);
         }
-    }, [lang, searchParamsLang, translations, setLang, languageDataStore]);
+    }, [lang, router$1.query.lang, translations, setLang]);
     return { lang, setLang };
 }
 
@@ -174,8 +172,8 @@ function useLanguageSwitcherIsActive(currentLang) {
             }
             setIsActive(current);
         }
-    }, [currentLang, defaultLang, router$1.query, languageDataStore]);
-    React.useEffect(() => {
+    }, [currentLang, defaultLang, router$1.query]);
+    const handleLocalStorageUpdateActive = () => {
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
             const localStorageLanguage = window.localStorage.getItem("next-export-i18n-lang");
             let current = defaultLang === currentLang;
@@ -184,7 +182,17 @@ function useLanguageSwitcherIsActive(currentLang) {
             }
             setIsActive(current);
         }
-    }, [currentLang, defaultLang, languageDataStore]);
+    };
+    // Listen for local-storage changes
+    React.useEffect(() => {
+        handleLocalStorageUpdateActive();
+        document.addEventListener("localStorageLangChange", () => {
+            handleLocalStorageUpdateActive();
+        });
+        return () => {
+            document.removeEventListener("localStorageLangChange", handleLocalStorageUpdateActive);
+        };
+    }, [handleLocalStorageUpdateActive]);
     return { isActive };
 }
 

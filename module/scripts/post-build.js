@@ -63,10 +63,14 @@ async function postBuild() {
           to: `const userI18n = I18N;`,
         });
 
-    console.log("post build: delete ./dist/module* ");
-    rimraf("./dist/module", (err) => {
+    console.log("post build: delete ./dist/i18n* ");
+    rimraf("./dist/i18n", (err) => {
       if (err) throw err;
-      console.log("post build: done");
+      console.log("post build: delete ./dist/module* ");
+      rimraf("./dist/module", (err) => {
+        if (err) throw err;
+        console.log("post build: done");
+      });
     });
   } catch (error) {
     console.log("Error occurred:", error);

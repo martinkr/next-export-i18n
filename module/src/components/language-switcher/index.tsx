@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 import useLanguageQuery from "../../hooks/use-language-query";
 import useLanguageSwitcherIsActive from "../../hooks/use-language-switcher-is-active";

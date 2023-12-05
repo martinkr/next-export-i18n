@@ -1,4 +1,4 @@
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import i18n from "./../index";
 import { I18N } from "../types";
@@ -15,11 +15,11 @@ export default function useSelectedLanguage() {
   const translations = i18nObj.translations;
   const languageDataStore = i18nObj.languageDataStore;
 
-  const searchParams = useSearchParams();
+  const router = useRouter();
   const [lang, setLang] = useState<string>(defaultLang);
 
   // set the language if the localStorage value has changed
-  const handleLocalStorageUpdate = useCallback(() => {
+  const handleLocalStorageUpdate = () => {
     const storedLang = window.localStorage.getItem("next-export-i18n-lang");
 
     if (
@@ -31,7 +31,7 @@ export default function useSelectedLanguage() {
     ) {
       setLang(storedLang);
     }
-  }, [translations, lang, setLang, languageDataStore]);
+  };
 
   // Listen for local-storage changes
   useEffect(() => {
@@ -49,10 +49,10 @@ export default function useSelectedLanguage() {
     };
   }, [handleLocalStorageUpdate]);
 
-  const searchParamsLang = searchParams.get("lang") as string;
   // set the language if the query parameter changes
   useEffect(() => {
-    const storedLang = searchParams.get("lang") as string;
+    const storedLang = router.query?.lang as string;
+
     if (
       languageDataStore === LanguageDataStore.QUERY &&
       storedLang &&
@@ -62,7 +62,7 @@ export default function useSelectedLanguage() {
     ) {
       setLang(storedLang);
     }
-  }, [lang, searchParamsLang, translations, setLang, languageDataStore]);
+  }, [lang, router.query.lang, translations, setLang]);
 
   return { lang, setLang } as const;
 }
