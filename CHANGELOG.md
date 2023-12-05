@@ -1,5 +1,7 @@
-
-# 2.2.0
+# 2.2.1
+### Fix
+- Edgecase where useLanguageSwitcherIsActive was not working 
+# 2.2.1
 ### Fix
 - Deletes unused variables: https://github.com/martinkr/next-export-i18n/pull/37
 - Fixes handling of query params for useLanguageQuery using dynamic routes and pages with additional query params: https://github.com/martinkr/next-export-i18n/pull/60

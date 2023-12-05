@@ -19,7 +19,7 @@ export default function useSelectedLanguage() {
   const [lang, setLang] = useState<string>(defaultLang);
 
   // set the language if the localStorage value has changed
-  const handleLocalStorageUpdate = useCallback(() => {
+  const handleLocalStorageUpdate = () => {
     const storedLang = window.localStorage.getItem("next-export-i18n-lang");
 
     if (
@@ -31,7 +31,7 @@ export default function useSelectedLanguage() {
     ) {
       setLang(storedLang);
     }
-  }, [translations, lang, setLang, languageDataStore]);
+  };
 
   // Listen for local-storage changes
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function useSelectedLanguage() {
     ) {
       setLang(storedLang);
     }
-  }, [lang, router.query.lang, translations, setLang, languageDataStore]);
+  }, [lang, router.query.lang, translations, setLang]);
 
   return { lang, setLang } as const;
 }

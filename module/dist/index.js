@@ -87,7 +87,7 @@ function useSelectedLanguage() {
     const router$1 = router.useRouter();
     const [lang, setLang] = React.useState(defaultLang);
     // set the language if the localStorage value has changed
-    const handleLocalStorageUpdate = React.useCallback(() => {
+    const handleLocalStorageUpdate = () => {
         const storedLang = window.localStorage.getItem("next-export-i18n-lang");
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE &&
             storedLang &&
@@ -96,7 +96,7 @@ function useSelectedLanguage() {
             translations[storedLang]) {
             setLang(storedLang);
         }
-    }, [translations, lang, setLang, languageDataStore]);
+    };
     // Listen for local-storage changes
     React.useEffect(() => {
         handleLocalStorageUpdate();
@@ -117,7 +117,7 @@ function useSelectedLanguage() {
             translations[storedLang]) {
             setLang(storedLang);
         }
-    }, [lang, router$1.query.lang, translations, setLang, languageDataStore]);
+    }, [lang, router$1.query.lang, translations, setLang]);
     return { lang, setLang };
 }
 
@@ -172,8 +172,8 @@ function useLanguageSwitcherIsActive(currentLang) {
             }
             setIsActive(current);
         }
-    }, [currentLang, defaultLang, router$1.query, languageDataStore]);
-    React.useEffect(() => {
+    }, [currentLang, defaultLang, router$1.query]);
+    const handleLocalStorageUpdateActive = () => {
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
             const localStorageLanguage = window.localStorage.getItem("next-export-i18n-lang");
             let current = defaultLang === currentLang;
@@ -182,7 +182,17 @@ function useLanguageSwitcherIsActive(currentLang) {
             }
             setIsActive(current);
         }
-    }, [currentLang, defaultLang, languageDataStore]);
+    };
+    // Listen for local-storage changes
+    React.useEffect(() => {
+        handleLocalStorageUpdateActive();
+        document.addEventListener("localStorageLangChange", () => {
+            handleLocalStorageUpdateActive();
+        });
+        return () => {
+            document.removeEventListener("localStorageLangChange", handleLocalStorageUpdateActive);
+        };
+    }, [handleLocalStorageUpdateActive]);
     return { isActive };
 }
 
@@ -233,7 +243,7 @@ const useTranslation = () => {
  * @param [children] React.nodes
  * @param [shallow] enable or disable shallow routing, @see https://nextjs.org/docs/routing/shallow-routing
  */
-const LanguageSwitcher = ({ lang, children, shallow = false }) => {
+const LanguageSwitcher = ({ lang, children, shallow = false, }) => {
     // state indicating if this component's target language matches the currently selected
     const { isActive: languageSwitcherIsActive } = useLanguageSwitcherIsActive(lang);
     // necessary for updating the router's query parameter inside the click handler

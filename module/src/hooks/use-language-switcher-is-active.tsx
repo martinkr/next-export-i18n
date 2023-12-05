@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import i18n from "../index";
 import { I18N } from "../types";
@@ -28,22 +28,35 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
 
       setIsActive(current);
     }
-  }, [currentLang, defaultLang, router.query, languageDataStore]);
+  }, [currentLang, defaultLang, router.query]);
 
-  useEffect(() => {
-    if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
-      const localStorageLanguage = window.localStorage.getItem(
-        "next-export-i18n-lang"
-      );
-      let current = defaultLang === currentLang;
+  const handleLocalStorageUpdate = () => {
+    const localStorageLanguage = window.localStorage.getItem(
+      "next-export-i18n-lang"
+    );
+    let current = defaultLang === currentLang;
 
-      if (localStorageLanguage) {
-        current = localStorageLanguage === currentLang;
-      }
-
-      setIsActive(current);
+    if (localStorageLanguage) {
+      current = localStorageLanguage === currentLang;
     }
-  }, [currentLang, defaultLang, languageDataStore]);
+    setIsActive(current);
+  };
+
+  // Listen for local-storage changes
+  useEffect(() => {
+    handleLocalStorageUpdate();
+
+    document.addEventListener("localStorageLangChange", () => {
+      handleLocalStorageUpdate();
+    });
+
+    return () => {
+      document.removeEventListener(
+        "localStorageLangChange",
+        handleLocalStorageUpdate
+      );
+    };
+  }, [handleLocalStorageUpdate]);
 
   return { isActive } as const;
 }
