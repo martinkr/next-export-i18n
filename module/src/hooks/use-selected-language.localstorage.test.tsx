@@ -84,7 +84,7 @@ describe("With localStorage, the hook returns ", () => {
     expect(result.current.lang).toBe("fooLs");
   });
 
-  it.only(`the updated language if ${eventType} is dispatched`, async () => {
+  it(`the updated language if ${eventType} is dispatched`, async () => {
     const { result } = renderHook(() => useSelectedLanguage());
     expect(result.current.lang).toBe("fooLs");
     act(() => {

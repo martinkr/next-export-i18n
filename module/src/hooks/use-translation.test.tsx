@@ -24,13 +24,6 @@ jest.mock("./../../../i18n/index", () => {
   };
 });
 
-jest.mock("./use-selected-language", () => {
-  return {
-    __esModule: true,
-    default: () => {},
-  };
-});
-
 jest.mock("./use-selected-language");
 const mockUseSelectedLanguage = useSelectedLanguage as jest.MockedFunction<any>;
 

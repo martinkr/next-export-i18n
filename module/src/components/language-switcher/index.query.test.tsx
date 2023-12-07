@@ -6,6 +6,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import LanguageSwitcher from "./index";
+import { useSearchParams, useRouter } from "next/navigation";
 
 jest.mock("../../../../i18n/index", () => {
   return {
@@ -25,20 +26,23 @@ jest.mock("../../../../i18n/index", () => {
   };
 });
 
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      push: jest.fn(),
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-    };
-  },
-}));
-const useRouter = jest.spyOn(require("next/router"), "useRouter");
-const push = jest.fn();
-useRouter.mockImplementation(() => ({ push }));
+jest.mock("next/navigation");
+
+const mockUseRouter = useRouter as jest.MockedFunction<any>;
+const mockPush = jest.fn();
+
+mockUseRouter.mockReturnValue({
+  push: mockPush,
+});
+
+const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+const mockGet = jest.fn();
+const mockToString = jest.fn();
+
+mockUseSearchParams.mockReturnValue({
+  get: mockGet,
+  toString: mockToString,
+});
 
 jest.mock("../../hooks/use-selected-language", () => {
   return {
@@ -51,6 +55,8 @@ const useSelectedLanguage = jest.spyOn(
   require("../../hooks/use-selected-language"),
   "default"
 );
+const pathname = "undefined";
+
 beforeEach(() => {
   useSelectedLanguage.mockImplementation(() => ({
     lang: "mock",
@@ -81,35 +87,7 @@ describe("The LanguageSwitcher Component is set to use the query and ", () => {
       name: `set language to ${lang}`,
     });
     await userEvent.click(component);
-    expect(push).toHaveBeenCalledWith(
-      {
-        pathname: undefined,
-        query: {
-          lang: lang,
-        },
-      },
-      undefined,
-      { shallow: false }
-    );
-  });
-
-  it("updates the language param with the passed param on click and uses shallow routing if shall is passed", async () => {
-    const lang = "languageKeyShallow";
-    render(<LanguageSwitcher lang={lang} shallow={true} />);
-    const component = await screen.findByRole("button", {
-      name: `set language to ${lang}`,
-    });
-    await userEvent.click(component);
-    expect(push).toHaveBeenCalledWith(
-      {
-        pathname: undefined,
-        query: {
-          lang: lang,
-        },
-      },
-      undefined,
-      { shallow: true }
-    );
+    expect(mockPush).toHaveBeenCalledWith(`${pathname}?lang=${lang}`);
   });
 });
 
@@ -142,16 +120,7 @@ describe("The LanguageSwitcher Component is set to use the query and takes the c
       name: `set language to ${lang}`,
     });
     await userEvent.click(component);
-    expect(push).toHaveBeenCalledWith(
-      {
-        pathname: undefined,
-        query: {
-          lang: lang,
-        },
-      },
-      undefined,
-      { shallow: false }
-    );
+    expect(mockPush).toHaveBeenCalledWith(`${pathname}?lang=${lang}`);
   });
 
   it("updates the language param with the passed param on click and preserves an onClick handler", async () => {
@@ -169,40 +138,6 @@ describe("The LanguageSwitcher Component is set to use the query and takes the c
     });
     await userEvent.click(component);
     expect(mySpy).toHaveBeenCalled();
-    expect(push).toHaveBeenCalledWith(
-      {
-        pathname: undefined,
-        query: {
-          lang: lang,
-        },
-      },
-      undefined,
-      { shallow: false }
-    );
-  });
-
-  it("updates the language param with the passed param on click and uses shallow routing if shall is passed", async () => {
-    const lang = "languageKeyShallow";
-    render(
-      <LanguageSwitcher lang={lang} shallow={true}>
-        <span>
-          <span>child</span>
-        </span>
-      </LanguageSwitcher>
-    );
-    const component = await screen.findByRole("button", {
-      name: `set language to ${lang}`,
-    });
-    await userEvent.click(component);
-    expect(push).toHaveBeenCalledWith(
-      {
-        pathname: undefined,
-        query: {
-          lang: lang,
-        },
-      },
-      undefined,
-      { shallow: true }
-    );
+    expect(mockPush).toHaveBeenCalledWith(`${pathname}?lang=${lang}`);
   });
 });
