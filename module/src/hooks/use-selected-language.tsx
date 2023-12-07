@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import i18n from "./../index";
 import { I18N } from "../types";
@@ -15,7 +15,8 @@ export default function useSelectedLanguage() {
   const translations = i18nObj.translations;
   const languageDataStore = i18nObj.languageDataStore;
 
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const langParam = searchParams.get("lang");
   const [lang, setLang] = useState<string>(defaultLang);
 
   // set the language if the localStorage value has changed
@@ -51,7 +52,7 @@ export default function useSelectedLanguage() {
 
   // set the language if the query parameter changes
   useEffect(() => {
-    const storedLang = router.query?.lang as string;
+    const storedLang = langParam;
 
     if (
       languageDataStore === LanguageDataStore.QUERY &&
@@ -62,7 +63,7 @@ export default function useSelectedLanguage() {
     ) {
       setLang(storedLang);
     }
-  }, [lang, router.query.lang, translations, setLang]);
+  }, [lang, langParam, translations, setLang]);
 
   return { lang, setLang } as const;
 }

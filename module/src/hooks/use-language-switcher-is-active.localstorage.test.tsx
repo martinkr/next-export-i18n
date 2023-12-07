@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import { useSearchParams } from "next/navigation";
+
 import { cleanup, renderHook } from "@testing-library/react";
 import useLanguageSwitcherIsActive from "./use-language-switcher-is-active";
 
@@ -15,18 +17,14 @@ jest.mock("./../../../i18n/index", () => {
   };
 });
 
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-    };
-  },
-}));
+jest.mock("next/navigation");
 
-const useRouter = jest.spyOn(require("next/router"), "useRouter");
+const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+const mockGet = jest.fn();
+
+mockUseSearchParams.mockReturnValue({
+  get: mockGet,
+});
 
 const storagePrototype = {
   getItem: function (key: string) {

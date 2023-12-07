@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { ReactNode, useCallback } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import useLanguageQuery from "../../hooks/use-language-query";
 import useLanguageSwitcherIsActive from "../../hooks/use-language-switcher-is-active";
 import i18n from "../../index";
@@ -35,24 +35,28 @@ const LanguageSwitcher = ({
 
   // necessary for updating the router's query parameter inside the click handler
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [query] = useLanguageQuery(lang);
 
   const i18nObj = i18n() as I18N;
   const languageDataStore = i18nObj.languageDataStore;
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
 
+      return params.toString();
+    },
+    [searchParams]
+  );
   /**
    * Updates the router with the currently selected language
    */
   const handleLanguageChange = () => {
     if (languageDataStore === LanguageDataStore.QUERY) {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: query,
-        },
-        undefined,
-        { shallow: shallow }
-      );
+      router.push(`${pathname}?${createQueryString("lang", lang)}`);
     }
 
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {

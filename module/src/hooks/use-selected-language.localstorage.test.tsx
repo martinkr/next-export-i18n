@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { useSearchParams } from "next/navigation";
 import { cleanup, renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import useSelectedLanguage from "./use-selected-language";
@@ -50,18 +51,14 @@ Object.defineProperty(window, "localStorage", {
 const langStorageId = "next-export-i18n-lang";
 const eventType = "localStorageLangChange";
 
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-    };
-  },
-}));
+jest.mock("next/navigation");
 
-const useRouter = jest.spyOn(require("next/router"), "useRouter");
+const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+const mockGet = jest.fn();
+
+mockUseSearchParams.mockReturnValue({
+  get: mockGet,
+});
 
 beforeEach(() => {
   window.localStorage.setItem(langStorageId, "fooLs");

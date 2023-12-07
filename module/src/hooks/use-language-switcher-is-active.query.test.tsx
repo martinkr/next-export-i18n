@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+
+import { useSearchParams } from "next/navigation";
 import { act, cleanup, renderHook } from "@testing-library/react";
 import useLanguageSwitcherIsActive from "./use-language-switcher-is-active";
 
@@ -15,18 +17,14 @@ jest.mock("./../../../i18n/index", () => {
   };
 });
 
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-    };
-  },
-}));
+jest.mock("next/navigation");
 
-const useRouter = jest.spyOn(require("next/router"), "useRouter");
+const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+const mockGet = jest.fn();
+
+mockUseSearchParams.mockReturnValue({
+  get: mockGet,
+});
 
 beforeEach(() => {});
 afterEach(() => {
@@ -36,48 +34,36 @@ afterEach(() => {
 
 describe("The hook returns ", () => {
   it(`true if there is no query at the router and the param equals the default language `, async () => {
-    useRouter.mockImplementation(() => ({
-      query: null,
-    }));
+    mockGet.mockReturnValue(null);
     const { result } = renderHook(() => useLanguageSwitcherIsActive("mock"));
     expect(result.current.isActive).toBe(true);
   });
 
   it(`false if there is no query at the router and the param does not equal the default language `, async () => {
-    useRouter.mockImplementation(() => ({
-      query: null,
-    }));
+    mockGet.mockReturnValue(null);
     const { result } = renderHook(() => useLanguageSwitcherIsActive("foo"));
     expect(result.current.isActive).toBe(false);
   });
-  it(`true if there is no language at the query and the param equals the default language `, async () => {
-    useRouter.mockImplementation(() => ({
-      query: {},
-    }));
+  it(`true if there is no language (no value) at the query and the param equals the default language `, async () => {
+    mockGet.mockReturnValue("");
     const { result } = renderHook(() => useLanguageSwitcherIsActive("mock"));
     expect(result.current.isActive).toBe(true);
   });
 
-  it(`false if there is no language at the query and the param does not equal the default language `, async () => {
-    useRouter.mockImplementation(() => ({
-      query: {},
-    }));
+  it(`false if there is no language (no value) at the query and the param does not equal the default language `, async () => {
+    mockGet.mockReturnValue("");
     const { result } = renderHook(() => useLanguageSwitcherIsActive("foo"));
     expect(result.current.isActive).toBe(false);
   });
 
-  it.only(`true if the router query equals the param`, async () => {
-    useRouter.mockImplementation(() => ({
-      query: { lang: "foo" },
-    }));
+  it(`true if the router query equals the param`, async () => {
+    mockGet.mockReturnValue("foo");
     const { result } = renderHook(() => useLanguageSwitcherIsActive("foo"));
     expect(result.current.isActive).toBe(true);
   });
 
   it(`false if the router does not query equals the param`, async () => {
-    useRouter.mockImplementation(() => ({
-      query: { lang: "foo" },
-    }));
+    mockGet.mockReturnValue("foo");
     const { result } = renderHook(() => useLanguageSwitcherIsActive("bar"));
     expect(result.current.isActive).toBe(false);
   });

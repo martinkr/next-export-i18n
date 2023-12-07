@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
-import { ParsedUrlQueryInput, ParsedUrlQuery } from 'node:querystring';
-import {useEffect, useMemo, useState} from 'react';
-import useSelectedLanguage from './use-selected-language';
-import { Dictionary } from '../types';
+import { useSearchParams } from "next/navigation";
+
+import { ParsedUrlQueryInput, ParsedUrlQuery } from "node:querystring";
+import { useEffect, useMemo, useState } from "react";
+import useSelectedLanguage from "./use-selected-language";
+import { Dictionary } from "../types";
 
 let passedQuery: Dictionary;
 
@@ -11,31 +12,35 @@ let passedQuery: Dictionary;
  * language (or the passed forced language).
  * Reason: We want to preserve an existing query string.
  * Usage: LanguageSwitcher with forceLang param and all links without forceLang param
-  * @param [forceLang] string to override the selected language
+ * @param [forceLang] string to override the selected language
  * @returns queryObject react-state as ParsedUrlQueryInput
  */
 export default function useLanguageQuery(forceLang?: string) {
-	const { lang } = useSelectedLanguage();
+  const { lang } = useSelectedLanguage();
 
-	const router = useRouter();
-	const [value, setValue] = useState<ParsedUrlQueryInput>();
+  const searchParams = useSearchParams();
+  const langParam = searchParams.get("lang");
+  const querystring = searchParams.toString();
 
-	// keep passed parameters
-	const passedQuery = useMemo(() => {
-		if (!router.query) {
-			return {};
-		}
+  const [value, setValue] = useState<ParsedUrlQueryInput>();
 
-		return {...router.query};
-	}, [router.query]);
+  // keep passed parameters
+  const passedQuery = useMemo(() => {
+    let queryObj: Dictionary = {};
 
-	// set lang if one of the dependencies is changing
-	useEffect(() => {
-		setValue({
-			...passedQuery,
-			lang: forceLang || (lang as string) || (passedQuery['lang'] as string),
-		});
-	}, [forceLang, lang, passedQuery]);
+    for (const [key, value] of searchParams.entries()) {
+      queryObj[key] = value;
+    }
+    return queryObj;
+  }, [langParam, querystring]);
 
-	return [value] as const;
+  // set lang if one of the dependencies is changing
+  useEffect(() => {
+    setValue({
+      ...passedQuery,
+      lang: forceLang || (lang as string) || (passedQuery["lang"] as string),
+    });
+  }, [forceLang, lang, passedQuery, querystring]);
+
+  return [value] as const;
 }

@@ -1,7 +1,15 @@
-# 2.2.1
+
+# 3.0.0
+- Switches to `app` router
+# 2.3.3
+### Fix
+- Version numbers in changelog
+- Racecondition in useLanguageSwitcherIsActive  
+
+# 2.3.2
 ### Fix
 - Edgecase where useLanguageSwitcherIsActive was not working 
-# 2.2.1
+# 2.3.1
 ### Fix
 - Deletes unused variables: https://github.com/martinkr/next-export-i18n/pull/37
 - Fixes handling of query params for useLanguageQuery using dynamic routes and pages with additional query params: https://github.com/martinkr/next-export-i18n/pull/60

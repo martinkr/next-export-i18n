@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import i18n from "../index";
 import { I18N } from "../types";
 import { LanguageDataStore } from "../enums/languageDataStore";
@@ -12,21 +12,22 @@ import { LanguageDataStore } from "../enums/languageDataStore";
 export default function useLanguageSwitcherIsActive(currentLang: string) {
   const [isActive, setIsActive] = useState<boolean>(false);
   const i18nObj = i18n() as I18N;
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const langParam = searchParams.get("lang");
   const defaultLang = i18nObj.defaultLang;
   const languageDataStore = i18nObj.languageDataStore;
 
   useEffect(() => {
     if (languageDataStore === LanguageDataStore.QUERY) {
       let current;
-      if (!router.query || !router.query.lang) {
+      if (!langParam) {
         current = defaultLang === currentLang;
       } else {
-        current = router.query?.lang === currentLang;
+        current = langParam === currentLang;
       }
       setIsActive(current);
     }
-  }, [currentLang, defaultLang, router.query]);
+  }, [currentLang, defaultLang, langParam]);
 
   const handleLocalStorageUpdate = () => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {

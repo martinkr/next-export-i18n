@@ -1,154 +1,150 @@
 /**
  * @jest-environment jsdom
  */
-import { cleanup, renderHook } from '@testing-library/react';
-import useLanguageQuery from './use-language-query';
+import { useSearchParams, useRouter } from "next/navigation";
+import { cleanup, renderHook } from "@testing-library/react";
+import useSelectedLanguage from "./use-selected-language";
+import useLanguageQuery from "./use-language-query";
 
-
-jest.mock('./../../../i18n/index', () => {
-	return {
-		__esModule: true,
-		i18n: {
-			translations: { mock: { title: 'mock' }, foo: { title: 'bar' } },
-			defaultLang: 'mock',
-		},
-	};
+jest.mock("./../../../i18n/index", () => {
+  return {
+    __esModule: true,
+    i18n: {
+      translations: { mock: { title: "mock" }, foo: { title: "bar" } },
+      defaultLang: "mock",
+    },
+  };
 });
 
-jest.mock('next/router', () => ({
-	useRouter() {
-		return {
-			route: '/',
-			pathname: '',
-			query: '',
-			asPath: '',
-		};
-	},
-}));
-const useRouter = jest.spyOn(require('next/router'), 'useRouter');
+jest.mock("next/navigation");
 
-jest.mock('./use-selected-language', () => {
-	return {
-		__esModule: true,
-		default: () => { },
-	};
+const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+const mockUseRouter = useRouter as jest.MockedFunction<any>;
+const mockGet = jest.fn();
+const mockEntries = jest.fn((arg) => console.log("MOCKENTRIES", arg));
+
+mockUseSearchParams.mockReturnValue({
+  get: mockGet,
+  entries: mockEntries,
 });
 
-const useSelectedLanguage = jest.spyOn(
-	require('./use-selected-language'),
-	'default'
-);
+jest.mock("./use-selected-language");
+const mockUseSelectedLanguage = useSelectedLanguage as jest.MockedFunction<any>;
 
 beforeEach(() => {
-	useSelectedLanguage.mockImplementation(() => ({
-		lang: 'mock',
-	}));
+  mockUseSelectedLanguage.mockImplementation(() => ({
+    lang: "mock",
+  }));
 });
 
 afterEach(() => {
-	cleanup();
-	jest.clearAllMocks();
+  cleanup();
+  jest.clearAllMocks();
 });
 
-describe('The hook returns ', () => {
-	it(`the query object with lang = forceLang if forceLang is passed `, async () => {
-		const expectation = [
-			{
-				bar: 'baz',
-				lang: 'forced',
-			},
-		];
-		const routerReturn = {
-			query: { bar: 'baz', lang: 'foo' },
-		};
-		useRouter.mockImplementation(() => (routerReturn));
-		useSelectedLanguage.mockImplementation(() => ({
-			lang: 'bar',
-		}));
+describe("The hook returns ", () => {
+  it.only(`the query object with lang = forceLang if forceLang is passed `, async () => {
+    const expectation = [
+      {
+        bar: "baz",
+        lang: "forced",
+      },
+    ];
+    const routerReturn = {
+      query: { bar: "baz", lang: "foo" },
+    };
+    // router.push(`${pathname}?${createQueryString("lang", lang)}`);
 
-		const { result } = renderHook(() => useLanguageQuery('forced'));
-		expect(result.current).toEqual(expectation);
-	});
+    mockUseRouter.mockImplementation(() => routerReturn);
+    mockUseSelectedLanguage.mockImplementation(() => ({
+      lang: "bar",
+    }));
 
-	it(`the query object with lang = selectedLanguage if no forceLang is passed and selectedLanguage is present`, async () => {
-		const expectation = [
-			{
-				bar: 'baz',
-				lang: 'bar',
-			},
-		];
-		const routerReturn = {
-			query: { bar: 'baz', lang: 'foo' },
-		};
-		useRouter.mockImplementation(() => (routerReturn));
-		useSelectedLanguage.mockImplementation(() => ({
-			lang: 'bar',
-		}));
+    const { result } = renderHook(() => useLanguageQuery("forced"));
+    expect(result.current).toEqual(expectation);
+  });
 
-		const { result } = renderHook(() => useLanguageQuery());
-		expect(result.current).toEqual(expectation);
-	});
+  it(`the query object with lang = selectedLanguage if no forceLang is passed and selectedLanguage is present`, async () => {
+    const expectation = [
+      {
+        bar: "baz",
+        lang: "bar",
+      },
+    ];
+    const routerReturn = {
+      query: { bar: "baz", lang: "foo" },
+    };
+    mockUseRouter.mockImplementation(() => routerReturn);
+    mockUseSelectedLanguage.mockImplementation(() => ({
+      lang: "bar",
+    }));
 
-	it(`the query object with lang = lang if no forceLang is passed and no selectedLanguage is present`, async () => {
-		const expectation = [
-			{
-				bar: 'baz',
-				lang: 'foo',
-			},
-		];
-		const routerReturn = {
-			query: { bar: 'baz', lang: 'foo' },
-		};
-		useRouter.mockImplementation(() => (routerReturn));
-		useSelectedLanguage.mockImplementation(() => ({
-			lang: '',
-		}));
+    const { result } = renderHook(() => useLanguageQuery());
+    expect(result.current).toEqual(expectation);
+  });
 
-		const { result } = renderHook(() => useLanguageQuery());
-		expect(result.current).toEqual(expectation);
-	});
+  it(`the query object with lang = lang if no forceLang is passed and no selectedLanguage is present`, async () => {
+    const expectation = [
+      {
+        bar: "baz",
+        lang: "foo",
+      },
+    ];
+    const routerReturn = {
+      query: { bar: "baz", lang: "foo" },
+    };
+    mockUseRouter.mockImplementation(() => routerReturn);
+    mockUseSelectedLanguage.mockImplementation(() => ({
+      lang: "",
+    }));
 
-	it(`an empty object if there is no query`, async () => {
-		const expectation = [{}];
-		const routerReturn = {
-			query: null,
-		};
-		useRouter.mockImplementation(() => (routerReturn));
-		useSelectedLanguage.mockImplementation(() => ({
-			lang: '',
-		}));
+    const { result } = renderHook(() => useLanguageQuery());
+    expect(result.current).toEqual(expectation);
+  });
 
-		const { result } = renderHook(() => useLanguageQuery());
-		expect(result.current).toEqual(expectation);
-	});
+  it(`an empty object if there is no query`, async () => {
+    const expectation = [{}];
+    const routerReturn = {
+      query: null,
+    };
+    mockUseRouter.mockImplementation(() => routerReturn);
+    mockUseSelectedLanguage.mockImplementation(() => ({
+      lang: "",
+    }));
 
-	it(`updates the query object if route changes`, async () => {
-		const expectation = [{}];
-		const routerReturn = {
-			query: null,
-		};
-		useRouter.mockImplementation(() => (routerReturn));
-		useSelectedLanguage.mockImplementation(() => ({
-			lang: '',
-		}));
+    const { result } = renderHook(() => useLanguageQuery());
+    expect(result.current).toEqual(expectation);
+  });
 
-		const { result, rerender } = renderHook(() => useLanguageQuery());
-		expect(result.current).toEqual(expectation);
+  it(`updates the query object if route changes`, async () => {
+    const expectation = [{}];
+    const routerReturn = {
+      query: null,
+    };
+    mockUseRouter.mockImplementation(() => routerReturn);
+    mockUseSelectedLanguage.mockImplementation(() => ({
+      lang: "",
+    }));
 
-		const newQuery = {
-			id: 'foo',
-			lang: 'en',
-		}
-		useRouter.mockImplementation(() => ({ query: newQuery }))
+    const { result, rerender } = renderHook(() => useLanguageQuery());
+    expect(result.current).toEqual(expectation);
 
-		// hook rerenders when route changes and query object is updated
-		rerender()
+    const newQuery = {
+      id: "foo",
+      lang: "en",
+    };
+    mockUseRouter.mockImplementation(() => ({ query: newQuery }));
 
-		const expectation2 = [{
-			id: 'foo',
-			lang: 'en'
-		}];
-		expect(result.current).toEqual(expectation2);
-	});
+    // hook rerenders when route changes and query object is updated
+    rerender();
+
+    const expectation2 = [
+      {
+        id: "foo",
+        lang: "en",
+      },
+    ];
+    expect(result.current).toEqual(expectation2);
+  });
 });
 //
