@@ -173,10 +173,11 @@ function useLanguageSwitcherIsActive(currentLang) {
             setIsActive(current);
         }
     }, [currentLang, defaultLang, router$1.query]);
-    const handleLocalStorageUpdateActive = () => {
+    const handleLocalStorageUpdate = () => {
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+            let current;
             const localStorageLanguage = window.localStorage.getItem("next-export-i18n-lang");
-            let current = defaultLang === currentLang;
+            current = defaultLang === currentLang;
             if (localStorageLanguage) {
                 current = localStorageLanguage === currentLang;
             }
@@ -185,14 +186,14 @@ function useLanguageSwitcherIsActive(currentLang) {
     };
     // Listen for local-storage changes
     React.useEffect(() => {
-        handleLocalStorageUpdateActive();
+        handleLocalStorageUpdate();
         document.addEventListener("localStorageLangChange", () => {
-            handleLocalStorageUpdateActive();
+            handleLocalStorageUpdate();
         });
         return () => {
-            document.removeEventListener("localStorageLangChange", handleLocalStorageUpdateActive);
+            document.removeEventListener("localStorageLangChange", handleLocalStorageUpdate);
         };
-    }, [handleLocalStorageUpdateActive]);
+    }, [handleLocalStorageUpdate]);
     return { isActive };
 }
 
