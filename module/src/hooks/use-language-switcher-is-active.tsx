@@ -31,15 +31,18 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
   }, [currentLang, defaultLang, router.query]);
 
   const handleLocalStorageUpdate = () => {
-    const localStorageLanguage = window.localStorage.getItem(
-      "next-export-i18n-lang"
-    );
-    let current = defaultLang === currentLang;
+    if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+      let current;
+      const localStorageLanguage = window.localStorage.getItem(
+        "next-export-i18n-lang"
+      );
+      current = defaultLang === currentLang;
 
-    if (localStorageLanguage) {
-      current = localStorageLanguage === currentLang;
+      if (localStorageLanguage) {
+        current = localStorageLanguage === currentLang;
+      }
+      setIsActive(current);
     }
-    setIsActive(current);
   };
 
   // Listen for local-storage changes
