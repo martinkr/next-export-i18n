@@ -10,7 +10,7 @@ import { LanguageDataStore } from "../enums/languageDataStore";
  * @returns boolean react-state
  */
 export default function useLanguageSwitcherIsActive(currentLang: string) {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState<boolean>(false);
   const i18nObj = i18n() as I18N;
   const router = useRouter();
   const defaultLang = i18nObj.defaultLang;
@@ -19,27 +19,28 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
   useEffect(() => {
     if (languageDataStore === LanguageDataStore.QUERY) {
       let current;
-
       if (!router.query || !router.query.lang) {
         current = defaultLang === currentLang;
       } else {
         current = router.query?.lang === currentLang;
       }
-
       setIsActive(current);
     }
   }, [currentLang, defaultLang, router.query]);
 
   const handleLocalStorageUpdate = () => {
-    const localStorageLanguage = window.localStorage.getItem(
-      "next-export-i18n-lang"
-    );
-    let current = defaultLang === currentLang;
+    if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+      let current;
+      const localStorageLanguage = window.localStorage.getItem(
+        "next-export-i18n-lang"
+      );
+      current = defaultLang === currentLang;
 
-    if (localStorageLanguage) {
-      current = localStorageLanguage === currentLang;
+      if (localStorageLanguage) {
+        current = localStorageLanguage === currentLang;
+      }
+      setIsActive(current);
     }
-    setIsActive(current);
   };
 
   // Listen for local-storage changes

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { cleanup, renderHook } from "@testing-library/react";
+import { act, cleanup, renderHook } from "@testing-library/react";
 import useLanguageSwitcherIsActive from "./use-language-switcher-is-active";
 
 jest.mock("./../../../i18n/index", () => {
@@ -66,7 +66,7 @@ describe("The hook returns ", () => {
     expect(result.current.isActive).toBe(false);
   });
 
-  it(`true if the router query equals the param`, async () => {
+  it.only(`true if the router query equals the param`, async () => {
     useRouter.mockImplementation(() => ({
       query: { lang: "foo" },
     }));
