@@ -1,0 +1,29 @@
+{
+  "name": "next-export-i18n",
+  "files": ["index.js", "index.d.ts", "README.md", "LICENSE", "package.json"],
+
+  "main": "index.js",
+  "version": "3.0.0-beta",
+  "description": "Internationalize next.js with true support for next export",
+  "keywords": ["next.js", "react.js", "typescript", "i18n", "export", "ssg"],
+  "author": "Martin Krause <oss@mkrause.info> (http://mkrause.info/)",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "mustache": "^4.2.0"
+  },
+  "peerDependencies": {
+    "next": ">=12.1.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinkr/next-export-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martinkr/next-export-i18n/issues"
+  },
+  "homepage": "https://github.com/martinkr/next-export-i18n#readme"
+}
