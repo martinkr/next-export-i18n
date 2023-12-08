@@ -3,7 +3,7 @@
   "files": ["index.js", "index.d.ts", "README.md", "LICENSE", "package.json"],
 
   "main": "index.js",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "Internationalize next.js with true support for next export",
   "keywords": ["next.js", "react.js", "typescript", "i18n", "export", "ssg"],
   "author": "Martin Krause <oss@mkrause.info> (http://mkrause.info/)",
