@@ -10,7 +10,6 @@ import { LanguageDataStore } from "../../enums/languageDataStore";
 type Props = {
   lang: string;
   children?: ReactNode;
-  shallow?: boolean;
 };
 type Dict = { [key: string]: string };
 
@@ -23,13 +22,8 @@ type Dict = { [key: string]: string };
  *  attribute selectors or create your own component.
  * @param lang string the language to switch to. Needs to equal the key in i18n/index.
  * @param [children] React.nodes
- * @param [shallow] enable or disable shallow routing, @see https://nextjs.org/docs/routing/shallow-routing
  */
-const LanguageSwitcher = ({
-  lang,
-  children,
-  shallow = false,
-}: Props): JSX.Element => {
+const LanguageSwitcher = ({ lang, children }: Props): JSX.Element => {
   // state indicating if this component's target language matches the currently selected
   const { isActive: languageSwitcherIsActive } =
     useLanguageSwitcherIsActive(lang);

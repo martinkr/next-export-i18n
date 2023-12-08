@@ -199,7 +199,7 @@ describe("The LanguageSwitcher Component is set to use the localStorage and take
     const dispatchEventSpy = jest.spyOn(document, "dispatchEvent");
 
     render(
-      <LanguageSwitcher lang={lang} shallow={true}>
+      <LanguageSwitcher lang={lang}>
         <span>
           <span>child</span>
         </span>

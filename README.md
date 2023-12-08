@@ -35,7 +35,16 @@ There are a few things you need to keep in mind:
 - you need to set the translations files as `json`. If you prefer a more human friendly format, use `yaml` and [yamljs](https://www.npmjs.com/package/yamljs) and their cli `yaml2json` for easy conversion.
 - you refer nested keys with a dot: "nested.key" (see example below). Please no not use dots in your keys unless you use nested keys.
 - if there is no translation for the given key, the module renders the key back to the site.
-- if you use the query param (default) variant to store your language selection, you need to update the query parameters on your internal links to pass the selected language query-parameter. Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.
+- if you use the query param (default) variant to store your language selection, you need to update the query parameters on your internal links to pass the selected language query-parameter. 
+
+(DEPRECATED Use the `query` state from the `useLanguageQuery`-hook and add it as `query-object` to your `next/link`-components (`<Link href={{ query: query … }}>…`). The `useLanguageQuery`-hook will preserve your existing query-parameters.) 
+Use the `<LinkWithLocale>` component instead.
+````
+<LinkWithLocale href={t("nav.index.route")}>
+  {t("nav.index.text")}
+</LinkWithLocale>
+```
+
 - if you use the local storage variant, the above does not apply to you.
 - it requires JavaScript being enabled on the client side.
 
@@ -90,21 +99,24 @@ _In case there is a default language set in the browser and this language is ava
 it overrides the default language setting in the config file._ Relevant is the primary subtag, e.g.: a default language of `en-US` from the will be read as `en`.
 Set `useBrowserDefault` to false if you want to forcefully override the browser language.
 
-4. `import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n'` in your `pages` and get the required hooks.
+4. `import { useTranslation, LanguageSwitcher } from 'next-export-i18n'` in your `pages` and get the required hooks.
 
 ```javascript
 import {
   useTranslation,
-  useLanguageQuery,
   LanguageSwitcher,
 } from "next-export-i18n";
 
 const { t } = useTranslation();
-const [query] = useLanguageQuery();
 ```
 
 4. Add the `<LanguageSwitcher lang={string}>` component to change the language (or create your own language switcher).
-5. Add the `query` from `useLanguageQuery` to your internal links to enhance them with the language parameter (`<Link href={{ query: query … }}>…`).
+5.  Use the `<LinkWithLocale>` component to add the language key to your internal links in case you choose the `query`method. For `localStorage`, use the regular `next/link` component.
+````
+<LinkWithLocale href={t("nav.index.route")}>
+  {t("nav.index.text")}
+</LinkWithLocale>
+```
 6. Add the translations with `t(key)` from `useTranslation` to your elements. They will be automatically update as soon as the language change.
 
 ### Module.js
@@ -161,20 +173,34 @@ and open [http://localhost:3000](http://localhost:3000) with your browser to see
 
 ### Export the project
 
+#### Nextjs < 13.3.0
+Directly export the project with the `export` command:
 ```bash
 npm run export
 # or
 yarn export
+```
+#### Nextjs >= 13.3.0
+Add `output: export` to your `next.config.js`.
+````
+module.exports = { output: "export" };
+````
+
+And then export the project with the regular `build` command:
+```bash
+npm run build
+# or
+yarn build
 ```
 
 and `serve` the `./out` directory with your favorite web server.
 
 ## Tech Stack
 
-- next.js: 12.1.5
-- react.js: 18.0.0
-- jest: 27.5.1
-- typescript: 4.6.3
+- next.js: >=12.1.5
+- react.js: >=18.0.0
+- jest: >=27.5.1
+- typescript: >=4.6.3
 
 ## License
 
