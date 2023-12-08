@@ -4,11 +4,13 @@ var router = require('next/router');
 var React = require('react');
 var I18N = require('./../../i18n/index.js');
 var Mustache = require('mustache');
+var Link = require('next/link');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var Mustache__default = /*#__PURE__*/_interopDefaultLegacy(Mustache);
+var Link__default = /*#__PURE__*/_interopDefaultLegacy(Link);
 
 var LanguageDataStore;
 (function (LanguageDataStore) {
@@ -295,7 +297,26 @@ const LanguageSwitcher = ({ lang, children, shallow = false, }) => {
     }
 };
 
+function LinkWithLocale(props) {
+    const { lang } = useSelectedLanguage();
+    const { href, ...rest } = props;
+    const link = React.useMemo(() => {
+        const inputHref = href.toString();
+        if (inputHref.includes("?lang=") || inputHref.includes("&lang=")) {
+            return inputHref;
+        }
+        if (inputHref.includes("?")) {
+            return `${inputHref}&lang=${lang}`;
+        }
+        else {
+            return `${inputHref}?lang=${lang}`;
+        }
+    }, [href, lang]);
+    return React__default["default"].createElement(Link__default["default"], { href: link, ...rest });
+}
+
 exports.LanguageSwitcher = LanguageSwitcher;
+exports.LinkWithLocale = LinkWithLocale;
 exports["default"] = i18n;
 exports.useLanguageQuery = useLanguageQuery;
 exports.useLanguageSwitcherIsActive = useLanguageSwitcherIsActive;
