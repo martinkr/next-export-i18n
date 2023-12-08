@@ -11,7 +11,6 @@ import i18n from "./index.js";
 import { Dictionary, I18N } from "./types";
 
 export {
-  useLanguageQuery,
   useSelectedLanguage,
   useLanguageSwitcherIsActive,
   useTranslation,
