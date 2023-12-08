@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import i18n from "../index";
@@ -47,13 +49,11 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
   // Listen for local-storage changes
   useEffect(() => {
     handleLocalStorageUpdate();
-
-    document.addEventListener("localStorageLangChange", () => {
+    document?.addEventListener("localStorageLangChange", () => {
       handleLocalStorageUpdate();
     });
-
     return () => {
-      document.removeEventListener(
+      document?.removeEventListener(
         "localStorageLangChange",
         handleLocalStorageUpdate
       );

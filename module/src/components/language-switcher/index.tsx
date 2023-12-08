@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import useLanguageSwitcherIsActive from "../../hooks/use-language-switcher-is-active";

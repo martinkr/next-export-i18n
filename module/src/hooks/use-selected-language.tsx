@@ -1,3 +1,5 @@
+"use client";
+
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import i18n from "./../index";
