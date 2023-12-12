@@ -15,7 +15,7 @@ type Dict = { [key: string]: string };
 
 /**
  * Simple component for switching the language.
- * Set the "lang" query parameter on click whie preserves the current query parameters
+ * Set the "lang" query parameter on click while preserving the current query parameters
  * Style it using the
  * - [data-language-switcher]
  * - [data-is-current="true"]
