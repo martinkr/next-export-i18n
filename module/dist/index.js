@@ -237,7 +237,7 @@ const useTranslation = () => {
 
 /**
  * Simple component for switching the language.
- * Set the "lang" query parameter on click whie preserves the current query parameters
+ * Set the "lang" query parameter on click while preserving the current query parameters
  * Style it using the
  * - [data-language-switcher]
  * - [data-is-current="true"]
@@ -301,8 +301,12 @@ function LinkWithLocale(props) {
     const { lang } = useSelectedLanguage();
     const { href, ...rest } = props;
     const link = React.useMemo(() => {
+        const i18nObj = i18n();
+        const languageDataStore = i18nObj.languageDataStore;
         const inputHref = href.toString();
-        if (inputHref.includes("?lang=") || inputHref.includes("&lang=")) {
+        if (inputHref.includes("?lang=") ||
+            inputHref.includes("&lang=") ||
+            languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
             return inputHref;
         }
         if (inputHref.includes("?")) {

@@ -72,7 +72,7 @@ export default function Component({}) {
 ```
  _File: component.js_
 
-## Background
+## The Usecase for `next-export-i18n`
 Since v10.0.0 Next.js already has support for internationalized (i18n) routing out-of-the-box. You can provide a list of locales, a default and domain-specific locales, and Next.js automatically handles the routing. It streamlines the touring and locale parsing for nearly all existing l18n library solutions available for Next.js such as `react-intl`, `react-i18next`, `lingui`, `rosetta`, `next-intl`.
 
 __Unfortunately, [`Next.js` i18n-routing](https://nextjs.org/docs/advanced-features/i18n-routing) does not supports `next export`.__
@@ -214,7 +214,7 @@ export default function Page({ }) {
 }
 ``` 
 _File: component.js_
-## Use Template Strings 
+### Working With Template Strings 
 
 To add dynamic text to your translated content, use a [moustache](https://mustache.github.io/) template in the `translation.json` and render it dynamically. 
 Let's take a look at an example implementation.

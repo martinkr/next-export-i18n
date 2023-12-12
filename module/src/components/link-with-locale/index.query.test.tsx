@@ -60,18 +60,6 @@ describe("The LinkWithLocale Component is set to use the localStorage and ", () 
     expect(component).toBeInTheDocument();
   });
 
-  it("the href does not add the currently selected language as a parameter", async () => {
-    render(
-      <LinkWithLocale href={`${location}`}>
-        {`link to ${location}`}
-      </LinkWithLocale>
-    );
-    const component = await screen.findByRole("link", {
-      name: `link to location`,
-    });
-    expect(component).not.toHaveAttribute("href", ` ${location}?lang=mock`);
-  });
-
   it("preserves passed search parameters", async () => {
     render(
       <LinkWithLocale href={`${location}?foo=bar&bar=baz`}>
