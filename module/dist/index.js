@@ -210,7 +210,7 @@ const useTranslation = () => {
 
 /**
  * Simple component for switching the language.
- * Set the "lang" query parameter on click whie preserves the current query parameters
+ * Set the "lang" query parameter on click while preserves the current query parameters
  * Style it using the
  * - [data-language-switcher]
  * - [data-is-current="true"]
@@ -272,6 +272,18 @@ const LanguageSwitcher = ({ lang, children }) => {
     }
 };
 
+/**
+ * Simple component wrapper for links with a locale. use it for internal links.
+ * Either add the lang parameter to the link target in the href-attribute to
+ * force a specific language (e.g. as a language switcher) or let the component
+ * add the currently selected languate automatically. Preserves the current query parameters
+ * @exmaple
+ *  <LinkWithLocale href={`${t("nav.en.about.href")}?share=social"}>
+ *    {t(nav.en.about.text")}
+ *  </LinkWithLocale>
+ * @param href string the value for the href-attribute
+ * @param [children] string the text to display
+ */
 function LinkWithLocale(props) {
     const { lang } = useSelectedLanguage();
     const i18nObj = i18n();

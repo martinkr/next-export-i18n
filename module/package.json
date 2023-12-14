@@ -8,7 +8,7 @@
     "./dist/package.json"
   ],
   "main": "./dist/index.js",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0",
   "description": "Internationalize next.js with true support for next export",
   "keywords": [
     "next.js",
@@ -28,12 +28,12 @@
   },
   "dependencies": {
     "mustache": "^4.2.0",
-    "next": "^12.1.5",
+    "next": ">=13.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "peerDependencies": {
-    "next": ">=12.1.0"
+    "next": ">=13.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
