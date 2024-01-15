@@ -2,7 +2,7 @@
 
 # `next-export-i18n`: From Version 2 to Version 3
 
-**For the `pages` directory, use Version 2 **
+**For the `pages` directory, use Version 2**
 You can add it to your project with `npm install --save-dev next-export-i18n@^2`
 
 **Version 3 supports the `app `router**
