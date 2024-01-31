@@ -7,4 +7,5 @@ export type I18N = {
   defaultLang: string;
   useBrowserDefault: boolean;
   languageDataStore?: LanguageDataStore;
+  t: (key: string, options?: any) => string;
 };

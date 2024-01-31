@@ -80,6 +80,20 @@ const i18n = (): I18N | Error => {
 
   userI18n.defaultLang = getDefaultLanguage(userI18n);
 
+  userI18n.t = (key: string, options?: any): string => {
+    const { defaultLang, translations } = userI18n;
+    const translation = translations[defaultLang][key];
+
+    // Check if translation is a string, if so, return it
+    if (typeof translation === 'string') {
+      return translation;
+    }
+
+    // If translation is not a string (e.g., a Dictionary), handle accordingly
+    // This could be returning a default value, logging an error, etc.
+    // Example: return a default/fallback string or key
+    return key; // or some other appropriate fallback
+  };
   return userI18n;
 };
 
