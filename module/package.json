@@ -51,7 +51,7 @@
     "next": "^12.1.5",
     "replace-in-files": "^3.0.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.56.3",
+    "rollup": "^3.29.5",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^27.1.4",
