@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { cleanup, renderHook } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { act, cleanup, renderHook } from "@testing-library/react";
 import useSelectedLanguage from "./use-selected-language";
 
 jest.mock("./../../../i18n/index", () => {
