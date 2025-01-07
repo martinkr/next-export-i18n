@@ -21,12 +21,14 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
     "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
     "rollup.config.js"
   ]
 }
