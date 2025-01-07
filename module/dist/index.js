@@ -272,12 +272,12 @@ const LanguageSwitcher = ({ lang, children, shallow = false, }) => {
     };
     // use React.cloneElement to manipulate properties
     if (React__default["default"].isValidElement(children)) {
-        return React__default["default"].cloneElement(children, {
+        const childElement = children;
+        return React__default["default"].cloneElement(childElement, {
             onClick: () => {
-                if (children &&
-                    children.props &&
-                    typeof children.props.onClick === "function") {
-                    children.props.onClick();
+                if (childElement.props &&
+                    typeof childElement.props.onClick === "function") {
+                    childElement.props.onClick();
                 }
                 // set the language
                 handleLanguageChange();
