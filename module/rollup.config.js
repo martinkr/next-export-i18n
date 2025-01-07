@@ -1,7 +1,6 @@
-import typescript from "rollup-plugin-typescript2";
 import { babel } from "@rollup/plugin-babel";
-
 import yaml from "@rollup/plugin-yaml";
+import typescript from "rollup-plugin-typescript2";
 import pkg from "./package.json";
 
 export default {

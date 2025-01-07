@@ -41,16 +41,6 @@ async function postBuild() {
     fs.copyFile("./package.dist.json", "./dist/package.json", (err) => {
       if (err) throw err;
     });
-    console.log(
-      "post build: copy './build/module/src/export.d.ts' to './dist/index.d.ts'"
-    );
-    fs.copyFile(
-      "./build/module/src/export.d.ts",
-      "./dist/index.d.ts",
-      (err) => {
-        if (err) throw err;
-      }
-    );
     console.log("post build: replace strings in './dist/index.js'");
     const { changedFiles, countOfMatchesByPaths, replaceInFilesOptions } =
       await replaceInFiles(options)
