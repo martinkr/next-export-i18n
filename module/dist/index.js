@@ -175,7 +175,7 @@ function useLanguageSwitcherIsActive(currentLang) {
             setIsActive(current);
         }
     }, [currentLang, defaultLang, router$1.query]);
-    const handleLocalStorageUpdate = () => {
+    const handleLocalStorageUpdate = React.useCallback(() => {
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
             let current;
             const localStorageLanguage = window.localStorage.getItem("next-export-i18n-lang");
@@ -185,7 +185,7 @@ function useLanguageSwitcherIsActive(currentLang) {
             }
             setIsActive(current);
         }
-    };
+    }, [languageDataStore, currentLang, defaultLang]);
     // Listen for local-storage changes
     React.useEffect(() => {
         handleLocalStorageUpdate();

@@ -30,7 +30,7 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
     }
   }, [currentLang, defaultLang, router.query]);
 
-  const handleLocalStorageUpdate = () => {
+  const handleLocalStorageUpdate = useCallback(() => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
       let current;
       const localStorageLanguage = window.localStorage.getItem(
@@ -43,7 +43,7 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
       }
       setIsActive(current);
     }
-  };
+  }, [languageDataStore, currentLang, defaultLang]);
 
   // Listen for local-storage changes
   useEffect(() => {
