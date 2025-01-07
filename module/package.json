@@ -36,8 +36,8 @@
     "next": ">=14.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/runtime": "^7.17.9",
+    "@babel/core": "^7.26.0",
+    "@babel/runtime": "^7.26.0",
     "@rollup/plugin-yaml": "^3.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^5.17.0",
