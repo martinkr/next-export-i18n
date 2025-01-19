@@ -1,3 +1,7 @@
+# Unreleased
+### Features
+- Support for React 19 and Next.js 15
+
 # 2.3.3
 ### Fix
 - Version numbers in changelog

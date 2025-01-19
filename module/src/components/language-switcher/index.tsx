@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { JSX, ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 import useLanguageQuery from "../../hooks/use-language-query";
 import useLanguageSwitcherIsActive from "../../hooks/use-language-switcher-is-active";
@@ -64,14 +64,14 @@ const LanguageSwitcher = ({
 
   // use React.cloneElement to manipulate properties
   if (React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement<any>, {
+    const childElement = children as React.ReactElement<any>;
+    return React.cloneElement(childElement, {
       onClick: () => {
         if (
-          children &&
-          children.props &&
-          typeof children.props.onClick === "function"
+          childElement.props &&
+          typeof childElement.props.onClick === "function"
         ) {
-          children.props.onClick();
+          childElement.props.onClick();
         }
         // set the language
         handleLanguageChange();

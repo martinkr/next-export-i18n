@@ -175,7 +175,7 @@ function useLanguageSwitcherIsActive(currentLang) {
             setIsActive(current);
         }
     }, [currentLang, defaultLang, router$1.query]);
-    const handleLocalStorageUpdate = () => {
+    const handleLocalStorageUpdate = React.useCallback(() => {
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
             let current;
             const localStorageLanguage = window.localStorage.getItem("next-export-i18n-lang");
@@ -185,7 +185,7 @@ function useLanguageSwitcherIsActive(currentLang) {
             }
             setIsActive(current);
         }
-    };
+    }, [languageDataStore, currentLang, defaultLang]);
     // Listen for local-storage changes
     React.useEffect(() => {
         handleLocalStorageUpdate();
@@ -272,12 +272,12 @@ const LanguageSwitcher = ({ lang, children, shallow = false, }) => {
     };
     // use React.cloneElement to manipulate properties
     if (React__default["default"].isValidElement(children)) {
-        return React__default["default"].cloneElement(children, {
+        const childElement = children;
+        return React__default["default"].cloneElement(childElement, {
             onClick: () => {
-                if (children &&
-                    children.props &&
-                    typeof children.props.onClick === "function") {
-                    children.props.onClick();
+                if (childElement.props &&
+                    typeof childElement.props.onClick === "function") {
+                    childElement.props.onClick();
                 }
                 // set the language
                 handleLanguageChange();
