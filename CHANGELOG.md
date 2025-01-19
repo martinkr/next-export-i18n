@@ -1,30 +1,49 @@
-# Unreleased
+# v2.4.0
+
 ### Features
-- Support for React 19 and Next.js 15
+
+- Support for react 19 with the pages router by @Omikorin in https://github.com/martinkr/next-export-i18n/pull/82
+
+## New Contributors
+
+- @Omikorin made their first contribution in https://github.com/martinkr/next-export-i18n/pull/82
 
 # 2.3.3
+
 ### Fix
+
 - Version numbers in changelog
-- Racecondition in useLanguageSwitcherIsActive  
+- Racecondition in useLanguageSwitcherIsActive
 
 # 2.3.2
+
 ### Fix
-- Edgecase where useLanguageSwitcherIsActive was not working 
+
+- Edgecase where useLanguageSwitcherIsActive was not working
+
 # 2.3.1
+
 ### Fix
+
 - Deletes unused variables: https://github.com/martinkr/next-export-i18n/pull/37
 - Fixes handling of query params for useLanguageQuery using dynamic routes and pages with additional query params: https://github.com/martinkr/next-export-i18n/pull/60
 
 ### Features
+
 - Adds support for links with locale parameter: https://github.com/martinkr/next-export-i18n/pull/52
 - Adds support to store selected language in Local Storage https://github.com/martinkr/next-export-i18n/pull/56
+
 # 2.0.0
+
 ### Features
+
 - Support for React v18
 - Support for Next v12
 
 # 1.4.2
+
 ### Fix
+
 - <https://github.com/martinkr/next-export-i18n/issues/24>
 
 # 1.4.1
