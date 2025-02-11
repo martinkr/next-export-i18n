@@ -1,4 +1,5 @@
-// Read this info https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#testing_for_availability
+// Read this for more information on testing browser storage availability
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#testing_for_availability
 
 export const isStorageAvailable = (type : "localStorage" | "sessionStorage") => {
     let storage;
