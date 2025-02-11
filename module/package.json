@@ -1,5 +1,5 @@
 {
-  "name": "next-export-i18n",
+  "name": "@qlub-dev/next-export-i18n",
   "files": [
     "./dist/index.js",
     "./dist/index.d.ts",
@@ -22,7 +22,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --coverage",
-    "build": "node ./scripts/pre-build.js && yarn test && tsc && rollup -c && node ./scripts/post-build.js",
+    "build": "node ./scripts/pre-build.js && tsc && rollup -c && node ./scripts/post-build.js",
     "start": "rollup -c -w",
     "npm": "cd ./dist"
   },
@@ -53,7 +53,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-typescript2": "0.36.0",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
   },
@@ -64,5 +64,6 @@
   "bugs": {
     "url": "https://github.com/martinkr/next-export-i18n/issues"
   },
-  "homepage": "https://github.com/martinkr/next-export-i18n#readme"
+  "homepage": "https://github.com/martinkr/next-export-i18n#readme",
+  "types": "./dist/index.d.ts"
 }
