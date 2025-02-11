@@ -77,6 +77,26 @@ const i18n = () => {
     return userI18n;
 };
 
+// Read this for more information on testing browser storage availability
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#testing_for_availability
+const isStorageAvailable = (type) => {
+    let storage;
+    try {
+        storage = window[type];
+        const x = "__storage_test__";
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return (e instanceof DOMException &&
+            e.name === "QuotaExceededError" &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            storage &&
+            storage.length !== 0);
+    }
+};
+
 /**
  * Returns a react-state containing the currently selected language.
  * @returns [lang as string, setLang as SetStateAction] a react-state containing the currently selected language
@@ -90,7 +110,7 @@ function useSelectedLanguage() {
     const [lang, setLang] = React.useState(defaultLang);
     // set the language if the localStorage value has changed
     const handleLocalStorageUpdate = () => {
-        const storedLang = window.localStorage.getItem("next-export-i18n-lang");
+        const storedLang = isStorageAvailable("localStorage") && window.localStorage.getItem("next-export-i18n-lang");
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE &&
             storedLang &&
             storedLang !== lang &&
