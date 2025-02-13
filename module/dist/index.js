@@ -2,7 +2,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var router = require('next/router');
 var React = require('react');
-var I18N = require('./../../i18n/index.js');
+var I18N = require('./../../../../i18n/index.js');
 var Mustache = require('mustache');
 var Link = require('next/link');
 
