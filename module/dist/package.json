@@ -1,5 +1,5 @@
 {
-  "name": "next-export-i18n",
+  "name": "@qlub-dev/next-export-i18n",
   "files": ["index.js", "index.d.ts", "README.md", "LICENSE", "package.json"],
 
   "main": "index.js",
