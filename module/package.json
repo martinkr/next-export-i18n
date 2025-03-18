@@ -36,7 +36,7 @@
     "next": ">=13.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
+    "@babel/core": "^7.26.10",
     "@babel/runtime": "^7.17.9",
     "@rollup/plugin-yaml": "^3.1.0",
     "@testing-library/dom": "^8.13.0",
