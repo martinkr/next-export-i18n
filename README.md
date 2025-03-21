@@ -206,6 +206,10 @@ _File: ./i18n/index.js_
 _A string, for Example: "en"_
 We use the `defaultLang` property to set the default language. Remember, this language key needs to be available in your translation configuration.
 
+##### defaultLangFallback
+_Either `true` or `false`_
+If you use `true`, we fall back to the translation from the `defaultLang` before falling back to the key itself if there is no translation in the selected language.
+
 ##### languageDataStore
 _Either `"localStorage"` or `"query"`_
 With the configuration property `languageDataStore`, you tell `next-export-i18n` to either add a `query` parameter (default) `lang` to your URLs or store the selected language in the browser's `localStorage`. 

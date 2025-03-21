@@ -17,7 +17,21 @@ const useTranslation = () => {
   i18nObj = i18n() as I18N;
 
   const translations: Dictionary = i18nObj.translations;
+
+  const defaultLang: string = i18nObj.defaultLang;
+  const defaultLangFallback: boolean = i18nObj.defaultLangFallback || false;
+
   const { lang } = useSelectedLanguage();
+
+  const getLanguageValue = (key: string, lang: string): any => {
+    return key
+      .split('.')
+      .reduce(
+        (previous: any, current: string) =>
+          (previous && previous[current]) || null,
+        translations[lang]
+      );
+  }
 
   return {
     /**
@@ -29,14 +43,9 @@ const useTranslation = () => {
      * @returns the value stored for this key, could be a string, a number, an array or an object
      */
     t: (key: string, view?: object): any => {
-      let value: any = key
-        .split(".")
-        .reduce(
-          (previous: any, current: string) =>
-            (previous && previous[current]) || null,
-          translations[lang]
-        );
-      let translation: any = value || key;
+      let selectedLangTranslation: any = getLanguageValue(key, lang);
+      let fallbackTranslation: any = defaultLangFallback ? getLanguageValue(key, defaultLang) || key : key;
+      let translation: any = selectedLangTranslation || fallbackTranslation;
       try {
         return Mustache.render(translation, view);
       } catch (e) {
