@@ -212,7 +212,7 @@ With the configuration property `languageDataStore`, you tell `next-export-i18n`
 
 ##### useBrowserDefault
 _Either `true` or `false`_
-If you use `true`, we use the browser's language instead of the configuration's `defaultLang` to determine the default language setting. Remember that `next-export-i18n` considers only the primary subtag, e.g., `en-US` from the will be read as `en` and will use the translations you added under èn`in the `i18n/index.js`file.
+If you use `true`, we use the browser's language instead of the configuration's `defaultLang` to determine the default language setting. Remember that `next-export-i18n` first checks the full tag in lowercase, e.g., `en-US` will be read as `en-us` and will use the translations you added under `en-us` in the `i18n/index.js` file. If those do not exist, it will consider the primary subtag, e.g., `en-US` will be read as `en` and will use the translations you added under `en` in the `i18n/index.js` file.
 
 
 ### The `LinkWithLocale` Component
