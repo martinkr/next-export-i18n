@@ -30,10 +30,10 @@ const LanguageSwitcher = ({ lang, children }: Props): JSX.Element => {
   // necessary for updating the router's query parameter inside the click handler
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams()!;
+  const languageDataStore = i18nObj.languageDataStore;
+  const searchParams = languageDataStore === LanguageDataStore.QUERY ? useSearchParams()! : new URLSearchParams();
 
   const i18nObj = i18n() as I18N;
-  const languageDataStore = i18nObj.languageDataStore;
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());

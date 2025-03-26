@@ -17,7 +17,7 @@ export default function useSelectedLanguage() {
   const translations = i18nObj.translations;
   const languageDataStore = i18nObj.languageDataStore;
 
-  const searchParams = useSearchParams();
+  const searchParams = languageDataStore === LanguageDataStore.QUERY ? useSearchParams() : new URLSearchParams();
   const langParam = searchParams.get("lang");
   const [lang, setLang] = useState<string>(defaultLang);
 

@@ -14,10 +14,10 @@ import { LanguageDataStore } from "../enums/languageDataStore";
 export default function useLanguageSwitcherIsActive(currentLang: string) {
   const [isActive, setIsActive] = useState<boolean>(false);
   const i18nObj = i18n() as I18N;
-  const searchParams = useSearchParams();
+  const languageDataStore = i18nObj.languageDataStore;
+  const searchParams = languageDataStore === LanguageDataStore.QUERY ? useSearchParams() : new URLSearchParams();
   const langParam = searchParams.get("lang");
   const defaultLang = i18nObj.defaultLang;
-  const languageDataStore = i18nObj.languageDataStore;
 
   useEffect(() => {
     if (languageDataStore === LanguageDataStore.QUERY) {
