@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import i18n from "../index";
 import { I18N } from "../types";
 import { LanguageDataStore } from "../enums/languageDataStore";
+import {useLanguagePathname} from "./use-language-pathname";
 
 /**
  * Returns a boolean react-state indicating if the current selected language equals the one passed to the hook.
@@ -16,6 +17,7 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
   const i18nObj = i18n() as I18N;
   const searchParams = useSearchParams();
   const langParam = searchParams.get("lang");
+  const langPath = useLanguagePathname();
   const defaultLang = i18nObj.defaultLang;
   const languageDataStore = i18nObj.languageDataStore;
 
@@ -30,6 +32,18 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
       setIsActive(current);
     }
   }, [currentLang, defaultLang, langParam]);
+
+  useEffect(() => {
+    if (languageDataStore === LanguageDataStore.PATHNAME) {
+      let current;
+      if (!langPath) {
+        current = defaultLang === currentLang;
+      } else {
+        current = langPath === currentLang;
+      }
+      setIsActive(current);
+    }
+  }, [currentLang, defaultLang, langPath]);
 
   const handleLocalStorageUpdate = () => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {

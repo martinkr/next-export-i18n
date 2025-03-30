@@ -1,11 +1,11 @@
 "use client";
 
-import Link, { LinkProps } from "next/link";
+import Link, {LinkProps} from "next/link";
 import useSelectedLanguage from "../../hooks/use-selected-language";
-import React, { ReactNode, useMemo } from "react";
-import { LanguageDataStore } from "../../enums/languageDataStore";
+import React, {ReactNode, useMemo} from "react";
+import {LanguageDataStore} from "../../enums/languageDataStore";
 import i18n from "../../index";
-import { I18N } from "../../types";
+import {I18N} from "../../types";
 
 interface LinkWithLocaleProps extends LinkProps {
   children: ReactNode;
@@ -30,18 +30,34 @@ export default function LinkWithLocale(props: LinkWithLocaleProps) {
   const { href, hash, ...rest } = props;
   const link = useMemo(() => {
     const inputHref = href.toString();
-    if (
-      inputHref.includes("?lang=") ||
-      inputHref.includes("&lang=") ||
-      languageDataStore === LanguageDataStore.LOCAL_STORAGE
-    ) {
+
+    if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
       return inputHref;
     }
-    if (inputHref.includes("?")) {
-      return `${inputHref}&lang=${lang}` + (hash || '');
-    } else {
-      return `${inputHref}?lang=${lang}` + (hash || '');
+    if (languageDataStore === LanguageDataStore.QUERY) {
+      if (
+        inputHref.includes("?lang=") ||
+        inputHref.includes("&lang=")
+      ) {
+        return inputHref;
+      }
+      if (inputHref.includes("?")) {
+        return `${inputHref}&lang=${lang}` + (hash || '');
+      } else {
+        return `${inputHref}?lang=${lang}` + (hash || '');
+      }
     }
+    if (languageDataStore === LanguageDataStore.PATHNAME) {
+      if (/^\/[a-zA-Z]{2}(\/|$)/.test(inputHref)) { // already has a language
+        return inputHref;
+      }
+      if (inputHref.startsWith("/")) {
+        return `/${lang}${inputHref}` + (hash || '');
+      } else {
+        return `/${lang}/${inputHref}` + (hash || '');
+      }
+    }
+
   }, [href, hash, lang]);
   return <Link href={link} {...rest} />;
 }

@@ -1,4 +1,9 @@
 
+# 3.0.1
+- Adds support for locale in pathname
+### Fix
+- Updates next@13 dependency
+
 # 3.0.0
 - Switches to `app` router
 # 2.3.3

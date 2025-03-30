@@ -50,6 +50,14 @@ const LanguageSwitcher = ({ lang, children }: Props): JSX.Element => {
       router.push(`${pathname}?${createQueryString("lang", lang)}`);
     }
 
+    if (languageDataStore === LanguageDataStore.PATHNAME) {
+      if (searchParams.toString()) {
+        router.push(`/${lang}${pathname}?${searchParams.toString()}`);
+      } else {
+        router.push(`/${lang}${pathname}`);
+      }
+    }
+
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
       window.localStorage.setItem("next-export-i18n-lang", lang);
       const event = new Event("localStorageLangChange");

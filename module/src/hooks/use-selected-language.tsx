@@ -1,10 +1,11 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import {useSearchParams} from "next/navigation";
+import {useEffect, useState} from "react";
 import i18n from "./../index";
-import { I18N } from "../types";
-import { LanguageDataStore } from "../enums/languageDataStore";
+import {I18N} from "../types";
+import {LanguageDataStore} from "../enums/languageDataStore";
+import {useLanguagePathname} from "./use-language-pathname";
 
 /**
  * Returns a react-state containing the currently selected language.
@@ -19,6 +20,7 @@ export default function useSelectedLanguage() {
 
   const searchParams = useSearchParams();
   const langParam = searchParams.get("lang");
+  const langPath = useLanguagePathname();
   const [lang, setLang] = useState<string>(defaultLang);
 
   // set the language if the localStorage value has changed
@@ -35,6 +37,7 @@ export default function useSelectedLanguage() {
       setLang(storedLang);
     }
   };
+
 
   // Listen for local-storage changes
   useEffect(() => {
@@ -64,8 +67,24 @@ export default function useSelectedLanguage() {
       translations[storedLang]
     ) {
       setLang(storedLang);
+
     }
   }, [lang, langParam, translations, setLang]);
+
+  // set the language if the language path changes
+  useEffect(() => {
+    const storedLang = langPath;
+
+    if (
+      languageDataStore === LanguageDataStore.PATHNAME &&
+      storedLang &&
+      storedLang !== lang &&
+      translations &&
+      translations[storedLang]
+    ) {
+      setLang(storedLang);
+    }
+  }, [lang, langPath, translations, setLang]);
 
   return { lang, setLang } as const;
 }
