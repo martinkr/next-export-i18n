@@ -30,17 +30,18 @@ export default function LinkWithLocale(props: LinkWithLocaleProps) {
   const { href, ...rest } = props;
   const link = useMemo(() => {
     const inputHref = href.toString();
-    if (
-      inputHref.includes("?lang=") ||
-      inputHref.includes("&lang=") ||
-      languageDataStore === LanguageDataStore.LOCAL_STORAGE
-    ) {
+    try {
+      const url = new URL(inputHref, document.baseURI);
+      if (
+        url.searchParams.has("lang") ||
+        languageDataStore === LanguageDataStore.LOCAL_STORAGE
+      ) {
+        return inputHref;
+      }
+      url.searchParams.set("lang", lang);
+      return url.toString();
+    } catch (_e) {
       return inputHref;
-    }
-    if (inputHref.includes("?")) {
-      return `${inputHref}&lang=${lang}`;
-    } else {
-      return `${inputHref}?lang=${lang}`;
     }
   }, [href, lang]);
   return <Link href={link} {...rest} />;
