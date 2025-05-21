@@ -27,21 +27,22 @@ export default function LinkWithLocale(props: LinkWithLocaleProps) {
   const { lang } = useSelectedLanguage();
   const i18nObj = i18n() as I18N;
   const languageDataStore = i18nObj.languageDataStore;
-  const { href, hash, ...rest } = props;
+  const { href, ...rest } = props;
   const link = useMemo(() => {
     const inputHref = href.toString();
-    if (
-      inputHref.includes("?lang=") ||
-      inputHref.includes("&lang=") ||
-      languageDataStore === LanguageDataStore.LOCAL_STORAGE
-    ) {
+    try {
+      const url = new URL(inputHref, document.baseURI);
+      if (
+        url.searchParams.has("lang") ||
+        languageDataStore === LanguageDataStore.LOCAL_STORAGE
+      ) {
+        return inputHref;
+      }
+      url.searchParams.set("lang", lang);
+      return url.toString();
+    } catch (_e) {
       return inputHref;
     }
-    if (inputHref.includes("?")) {
-      return `${inputHref}&lang=${lang}` + (hash || '');
-    } else {
-      return `${inputHref}?lang=${lang}` + (hash || '');
-    }
-  }, [href, hash, lang]);
+  }, [href, lang]);
   return <Link href={link} {...rest} />;
 }
