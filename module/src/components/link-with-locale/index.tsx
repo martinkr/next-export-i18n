@@ -27,7 +27,7 @@ export default function LinkWithLocale(props: LinkWithLocaleProps) {
   const { lang } = useSelectedLanguage();
   const i18nObj = i18n() as I18N;
   const languageDataStore = i18nObj.languageDataStore;
-  const { href, hash, ...rest } = props;
+  const { href, ...rest } = props;
   const link = useMemo(() => {
     const inputHref = href.toString();
     if (
@@ -38,10 +38,10 @@ export default function LinkWithLocale(props: LinkWithLocaleProps) {
       return inputHref;
     }
     if (inputHref.includes("?")) {
-      return `${inputHref}&lang=${lang}` + (hash || '');
+      return `${inputHref}&lang=${lang}`;
     } else {
-      return `${inputHref}?lang=${lang}` + (hash || '');
+      return `${inputHref}?lang=${lang}`;
     }
-  }, [href, hash, lang]);
+  }, [href, lang]);
   return <Link href={link} {...rest} />;
 }
