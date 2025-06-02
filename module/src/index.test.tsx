@@ -26,6 +26,7 @@ jest.mock("./../../i18n/index", () => {
 const mockedData: any = {
   translations: { mock: { title: "mock" }, foo: { title: "bar" } },
   defaultLang: "mock",
+  defaultLangFallback: false,
   useBrowserDefault: true,
   languageDataStore: "query",
 };

@@ -6,5 +6,6 @@ export type I18N = {
   translations: { [language: string]: Dictionary };
   defaultLang: string;
   useBrowserDefault: boolean;
+  defaultLangFallback?: boolean;
   languageDataStore?: LanguageDataStore;
 };
