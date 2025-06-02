@@ -54,6 +54,11 @@ const i18n = (): I18N | Error => {
     userI18n.languageDataStore = LanguageDataStore.QUERY;
   }
 
+  // Set false as default
+  if (!userI18n.defaultLangFallback) {
+    userI18n.defaultLangFallback = false;
+  }
+
   if (Object.keys(userI18n.translations).length < 1) {
     throw new Error(
       `Missing translations. Did you import and add the tranlations in 'i18n/index.js'?`

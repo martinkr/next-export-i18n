@@ -1,5 +1,6 @@
 import Mustache from "mustache";
 
+import { i18n as userland } from "./../../../i18n/index";
 import i18n from "../index";
 import { Dictionary, I18N } from "../types";
 import useSelectedLanguage from "./use-selected-language";
@@ -18,8 +19,10 @@ const useTranslation = () => {
 
   const translations: Dictionary = i18nObj.translations;
 
-  const defaultLang: string = i18nObj.defaultLang;
-  const defaultLangFallback: boolean = i18nObj.defaultLangFallback || false;
+  const originalI18nObj = userland as I18N;
+
+  const defaultLang: string = originalI18nObj.defaultLang;
+  const defaultLangFallback: boolean | undefined = i18nObj.defaultLangFallback;
 
   const { lang } = useSelectedLanguage();
 
