@@ -100,7 +100,7 @@ export default function Component({}) {
     </main>
     </div>
   );
-
+}
 ```
  _File: ./component.js_
 
