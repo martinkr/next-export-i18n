@@ -5,6 +5,7 @@ import useLanguageSwitcherIsActive from "../../hooks/use-language-switcher-is-ac
 import i18n from "../../index";
 import { I18N } from "../../types";
 import { LanguageDataStore } from "../../enums/languageDataStore";
+import { checkStorageAvailability } from "../../utils";
 
 type Props = {
   lang: string;
@@ -54,8 +55,12 @@ const LanguageSwitcher = ({
         { shallow: shallow }
       );
     }
-
+    
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+      const isLocalStorageAvailable = checkStorageAvailability('localStorage');
+
+      if(!isLocalStorageAvailable) return
+    
       window.localStorage.setItem("next-export-i18n-lang", lang);
       const event = new Event("localStorageLangChange");
       document.dispatchEvent(event);
