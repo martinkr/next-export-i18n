@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import i18n from "../index";
 import { I18N } from "../types";
 import { LanguageDataStore } from "../enums/languageDataStore";
+import { checkStorageAvailability } from "../utils";
 
 /**
  * Returns a boolean react-state indicating if the current selected language equals the one passed to the hook.
@@ -32,6 +33,9 @@ export default function useLanguageSwitcherIsActive(currentLang: string) {
 
   const handleLocalStorageUpdate = () => {
     if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+      const isLocalStorageAvailable = checkStorageAvailability('localStorage');
+      if(!isLocalStorageAvailable) return
+      
       let current;
       const localStorageLanguage = window.localStorage.getItem(
         "next-export-i18n-lang"

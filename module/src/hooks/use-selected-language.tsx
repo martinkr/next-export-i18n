@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import i18n from "./../index";
 import { I18N } from "../types";
 import { LanguageDataStore } from "../enums/languageDataStore";
-import { isStorageAvailable } from "../utils";
+import { checkStorageAvailability } from "../utils";
 
 /**
  * Returns a react-state containing the currently selected language.
@@ -21,7 +21,7 @@ export default function useSelectedLanguage() {
 
   // set the language if the localStorage value has changed
   const handleLocalStorageUpdate = () => {
-    const storedLang = isStorageAvailable("localStorage") && window.localStorage.getItem("next-export-i18n-lang");
+    const storedLang = checkStorageAvailability("localStorage") && window.localStorage.getItem("next-export-i18n-lang");
 
     if (
       languageDataStore === LanguageDataStore.LOCAL_STORAGE &&

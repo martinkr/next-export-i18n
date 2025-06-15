@@ -285,6 +285,8 @@ const LanguageSwitcher = ({ lang, children, shallow = false, }) => {
             }, undefined, { shallow: shallow });
         }
         if (languageDataStore === LanguageDataStore.LOCAL_STORAGE) {
+            const isLocalStorageAvailable = checkStorageAvailability('localStorage');
+            if(!isLocalStorageAvailable) return
             window.localStorage.setItem("next-export-i18n-lang", lang);
             const event = new Event("localStorageLangChange");
             document.dispatchEvent(event);
