@@ -50,7 +50,7 @@
     "js-yaml-loader": "^1.2.2",
     "next": "^12.1.5",
     "replace-in-files": "^3.0.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.3.1",
     "rollup": "^2.56.3",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-typescript2": "^0.30.0",
