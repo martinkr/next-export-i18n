@@ -38,7 +38,7 @@
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/runtime": "^7.17.9",
-    "@rollup/plugin-yaml": "^3.1.0",
+    "@rollup/plugin-yaml": "^4.0.0",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
