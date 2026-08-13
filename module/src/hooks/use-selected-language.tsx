@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import i18n from "./../index";
 import { I18N } from "../types";
 import { LanguageDataStore } from "../enums/languageDataStore";
 import { isStorageAvailable } from "../utils";
+import useStableDocumentListener from "./use-stable-document-listener";
 
 /**
  * Returns a react-state containing the currently selected language.
@@ -21,7 +22,9 @@ export default function useSelectedLanguage() {
 
   // set the language if the localStorage value has changed
   const handleLocalStorageUpdate = () => {
-    const storedLang = isStorageAvailable("localStorage") && window.localStorage.getItem("next-export-i18n-lang");
+    const storedLang =
+      isStorageAvailable("localStorage") &&
+      window.localStorage.getItem("next-export-i18n-lang");
 
     if (
       languageDataStore === LanguageDataStore.LOCAL_STORAGE &&
@@ -35,20 +38,7 @@ export default function useSelectedLanguage() {
   };
 
   // Listen for local-storage changes
-  useEffect(() => {
-    handleLocalStorageUpdate();
-
-    document.addEventListener("localStorageLangChange", () => {
-      handleLocalStorageUpdate();
-    });
-
-    return () => {
-      document.removeEventListener(
-        "localStorageLangChange",
-        handleLocalStorageUpdate
-      );
-    };
-  }, [handleLocalStorageUpdate]);
+  useStableDocumentListener("localStorageLangChange", handleLocalStorageUpdate);
 
   // set the language if the query parameter changes
   useEffect(() => {
